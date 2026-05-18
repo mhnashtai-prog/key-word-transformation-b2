@@ -209,14 +209,14 @@ body.gram #ansInput:focus{border-bottom-color:var(--leaf-bright)}
 //  DATA — loaded from JSON
 // ═══════════════════════════════════════════════
 
-// Inline data (fetched from b2_kwt_complete.json at runtime if available,
+// Inline data (fetched from grammar-rules.json at runtime if available,
 // otherwise falls back to this embedded copy)
 let SEQ_PAGES = [];
 let GRAM_PAGES = [];
 let dataReady = false;
 
 // ── INLINE FALLBACK DATA ──
-// Paste the full contents of b2_kwt_complete.json between the backticks below.
+// Paste the full contents of grammar-rules.json between the backticks below.
 // The app will use this if the JSON file cannot be fetched (e.g. when opening
 // the HTML locally without a server).
 const INLINE_JSON = null; // set to the parsed object if you want a pure offline build
