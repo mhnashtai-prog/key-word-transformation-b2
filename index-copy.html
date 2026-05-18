@@ -1,1 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Key Word Transformations</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;600;700;800&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080b12;--surface:#0e1320;--card:#131928;
+  --border:rgba(255,255,255,.07);--text:#dde4f0;
+  --muted:rgba(221,228,240,.45);--faint:rgba(221,228,240,.18);
+  --blue:#4f8ef7;--blue-dim:rgba(79,142,247,.14);
+  --green:#3dd68c;--red:#f06c6c;--gold:#e0a84b;
+  --amber:#f7c948;--purple:#a78bfa;--purple-dim:rgba(167,139,250,.14);
+  --leaf:#58BB43;--leaf-bright:#58BB43;--leaf-dim:rgba(88,187,67,.11);--leaf-glow:rgba(88,187,67,.28);
+  --font-head:'Outfit',sans-serif;--font-mono:'DM Mono',monospace;
+}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-family:var(--font-head);overflow:hidden}
 
+/* ── TOGGLE ── */
+#modeBar{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;background:rgba(8,11,18,.98);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:12px}
+.brand{font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--gold)}
+.brand span{color:var(--muted);font-weight:400}
+
+.toggle-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:99px;padding:4px 6px 4px 10px}
+.toggle-label{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--muted);transition:color .2s}
+.toggle-label.active-label{color:var(--text)}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;border-radius:99px;cursor:pointer;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);transition:all .25s}
+.slider::before{content:'';position:absolute;height:18px;width:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.toggle input:checked + .slider{background:var(--leaf-dim);border-color:rgba(88,187,67,.45)}
+.toggle input:checked + .slider::before{transform:translateX(20px);background:var(--leaf-bright)}
+
+.hstats{display:flex;gap:14px;align-items:center;flex-shrink:0}
+.hstat{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;font-family:var(--font-mono)}
+.hstat strong{color:var(--text)}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.dg{background:var(--green)}.dr{background:var(--red)}
+
+/* ── TABS ── */
+#tabs{position:fixed;top:52px;left:0;right:0;z-index:99;background:rgba(8,11,18,.97);border-bottom:1px solid var(--border);display:flex;gap:5px;padding:7px 14px;overflow-x:auto;scrollbar-width:none}
+#tabs::-webkit-scrollbar{display:none}
+.tab{font-size:11px;font-weight:700;padding:4px 13px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.03em;font-family:var(--font-head)}
+.tab:hover{border-color:rgba(255,255,255,.18);color:var(--text)}
+.tab.active{background:var(--blue-dim);border-color:rgba(79,142,247,.4);color:var(--blue)}
+.tab.grammar-active{background:var(--leaf-dim);border-color:rgba(88,187,67,.4);color:var(--leaf-bright)}
+.tab.tok::after,.tab.tmix::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;margin-left:5px;vertical-align:middle}
+.tab.tok::after{background:var(--green)}.tab.tmix::after{background:var(--amber)}
+
+/* ── MAIN SLIDE ── */
+#slide{position:fixed;top:100px;left:0;right:0;bottom:80px;display:flex;align-items:center;justify-content:center;padding:20px 40px;overflow-y:auto}
+.slide-inner{width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.q-counter{font-size:13px;color:var(--muted);letter-spacing:.07em;font-family:var(--font-mono)}
+
+/* MODE BADGE */
+.mode-badge{font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 9px;border-radius:99px;border:1px solid;display:inline-block;margin-left:8px;vertical-align:middle}
+.mode-badge.seq{color:var(--blue);border-color:rgba(79,142,247,.35);background:var(--blue-dim)}
+.mode-badge.gram{color:var(--purple);border-color:rgba(167,139,250,.35);background:var(--purple-dim)}
+
+/* SENTENCE BOX */
+.sent-box{width:100%;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:30px 56px 22px;text-align:center;position:relative;overflow:hidden}
+.sent-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,.07),transparent 70%);pointer-events:none;transition:background .4s}
+body.gram .sent-box::before{background:radial-gradient(circle,rgba(88,187,67,.09),transparent 70%)}
+body.gram #ansInput:focus{border-bottom-color:var(--leaf-bright)}
+.orig-sent{font-size:24px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:400}
+.kw-big{font-size:52px;font-weight:800;color:var(--blue);letter-spacing:.05em;line-height:1;margin-bottom:10px;transition:color .3s}
+.kw-big.gram-mode{color:var(--leaf-bright);text-shadow:0 0 40px var(--leaf-glow),0 0 80px rgba(76,175,125,.1)}
+.gram-tag{font-size:12px;color:var(--faint);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:4px 11px;display:inline-block;font-family:var(--font-mono)}
+
+/* ANSWER ROW */
+.ans-row{width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
+.ans-pre,.ans-suf{font-size:24px;color:var(--muted);max-width:280px;text-align:center}
+#ansInput{min-width:240px;flex:1;background:transparent;border:none;border-bottom:2px solid var(--faint);padding:10px 6px;font-size:24px;color:var(--text);outline:none;text-align:center;transition:border-color .2s;font-family:var(--font-head)}
+#ansInput::placeholder{color:var(--faint);font-style:italic;font-size:19px}
+#ansInput:focus{border-bottom-color:var(--blue)}
+#ansInput.ok{border-bottom-color:var(--green);color:var(--green)}
+#ansInput.err{border-bottom-color:var(--red);color:var(--red)}
+#ansInput.rev{border-bottom-color:var(--gold);color:var(--gold)}
+#checkBtn{font-size:14px;font-weight:700;padding:12px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--text);cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.04em;font-family:var(--font-head)}
+#checkBtn:hover{background:rgba(255,255,255,.06)}
+#checkBtn:disabled{opacity:.28;cursor:default}
+
+#feedback{font-size:18px;color:var(--muted);text-align:center;min-height:26px;line-height:1.5;font-weight:600}
+#feedback.ok{color:var(--green)}
+#feedback.err{color:var(--red)}
+#feedback.rev{color:var(--gold)}
+#hintText{font-size:14px;color:var(--faint);text-align:center;min-height:20px;font-family:var(--font-mono)}
+
+/* ── BOTTOM NAV ── */
+#nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(8,11,18,.98);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 14px}
+.nav-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.nav-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.nav-btn:disabled{opacity:.18;cursor:default}
+#dotsWrap{display:flex;gap:5px;align-items:center;overflow-x:auto;max-width:500px;padding:4px;scrollbar-width:none}
+#dotsWrap::-webkit-scrollbar{display:none}
+.dn{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:transparent;cursor:pointer;flex-shrink:0;transition:all .15s}
+.dn.cur{width:22px;border-radius:99px;background:var(--blue);border-color:var(--blue)}
+.dn.cur.gram{background:var(--leaf-bright);border-color:var(--leaf-bright)}
+.dn.dok{background:var(--green);border-color:var(--green)}
+.dn.derr{background:var(--red);border-color:var(--red)}
+.dn.drev{background:var(--gold);border-color:var(--gold)}
+
+#actions{position:fixed;bottom:76px;right:14px;display:flex;gap:6px}
+.tiny{font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--faint);cursor:pointer;transition:all .15s;font-family:var(--font-head)}
+.tiny:hover{color:var(--muted);border-color:rgba(255,255,255,.18)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  html,body{overflow:hidden;height:100dvh}
+  #modeBar{height:48px;padding:0 12px}
+  .brand{font-size:11px}
+  .hstat{font-size:10px}
+  .toggle-wrap{padding:3px 5px 3px 8px;gap:7px}
+  .toggle-label{font-size:10px}
+  .toggle{width:38px;height:20px}
+  .slider::before{height:14px;width:14px;left:2px;top:2px}
+  .toggle input:checked + .slider::before{transform:translateX(18px)}
+  #tabs{top:48px;padding:6px 10px;gap:4px}
+  .tab{font-size:10px;padding:3px 10px}
+  #slide{top:90px;bottom:68px;padding:10px 12px;align-items:flex-start}
+  .slide-inner{gap:10px;padding-bottom:8px}
+  .q-counter{font-size:11px}
+  .sent-box{border-radius:14px;padding:18px 16px 14px}
+  .orig-sent{font-size:15px;margin-bottom:10px}
+  .kw-big{font-size:36px;margin-bottom:8px}
+  .gram-tag{font-size:10px;padding:3px 8px}
+  .ans-row{flex-direction:column;gap:8px;align-items:stretch}
+  .ans-pre,.ans-suf{font-size:14px;max-width:100%}
+  #ansInput{font-size:17px;min-width:unset;width:100%;padding:10px 6px;border-bottom:2px solid var(--faint)}
+  #ansInput::placeholder{font-size:14px}
+  #checkBtn{font-size:13px;padding:12px 0;width:100%;border-radius:10px}
+  #feedback{font-size:14px}
+  #hintText{font-size:11px}
+  #nav{height:68px;gap:7px;padding:0 10px}
+  .nav-btn{width:38px;height:38px}
+  #dotsWrap{max-width:calc(100vw - 110px);gap:4px}
+  .dn{width:7px;height:7px}
+  .dn.cur{width:16px}
+  #actions{bottom:72px;right:10px}
+  .tiny{font-size:9px;padding:3px 8px}
+}
+</style>
+</head>
+<body>
+
+<div id="modeBar">
+  <div class="brand">B2 Part 4 <span>Key Word Transformations</span></div>
+  <div class="toggle-wrap">
+    <span class="toggle-label active-label" id="lblSeq">SEQUENTIAL</span>
+    <label class="toggle">
+      <input type="checkbox" id="modeToggle">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label" id="lblGram">GRAMMAR</span>
+  </div>
+  <div class="hstats">
+    <div class="hstat"><span class="dot dg"></span><strong id="gOk">0</strong>&nbsp;correct</div>
+    <div class="hstat"><span class="dot dr"></span><strong id="gErr">0</strong>&nbsp;wrong</div>
+    <div class="hstat" id="gTot">0 / 160</div>
+  </div>
+</div>
+
+<div id="tabs"></div>
+
+<div id="slide">
+  <div class="slide-inner">
+    <div class="q-counter" id="qCounter">Question 1 of 160</div>
+    <div class="sent-box">
+      <div class="orig-sent" id="origSent"></div>
+      <div class="kw-big" id="kwBig"></div>
+      <span class="gram-tag" id="gramTag"></span>
+    </div>
+    <div class="ans-row">
+      <span class="ans-pre" id="ansPre"></span>
+      <input id="ansInput" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="type the missing words…">
+      <span class="ans-suf" id="ansSuf"></span>
+      <button id="checkBtn">Check</button>
+    </div>
+    <div id="feedback"></div>
+    <div id="hintText"></div>
+  </div>
+</div>
+
+<div id="actions">
+  <button class="tiny" id="revBtn">Show answer</button>
+  <button class="tiny" id="resetBtn">Reset section</button>
+</div>
+
+<div id="nav">
+  <button class="nav-btn" id="prevBtn">&#8592;</button>
+  <div id="dotsWrap"></div>
+  <button class="nav-btn" id="nextBtn">&#8594;</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const SEQ_PAGES=[
+  {label:"1–20",range:[1,20],items:[
+    {n:1,sent:"You've broken my radio, Frank! Said Jane.",key:"ACCUSED",pre:"Jane",blank:"accused Frank of breaking",post:"her radio.",hint:"accuse + object + of + gerund",grammar:"reporting verbs"},
+    {n:2,sent:"My car really needs to be repaired soon.",key:"MUST",pre:"I really",blank:"must get it",post:"repaired soon.",hint:"must + get + object + past participle",grammar:"modals"},
+    {n:3,sent:"Susan regrets not buying that house.",key:"WISHES",pre:"Susan",blank:"wishes she had bought",post:"that house.",hint:"wishes + past perfect",grammar:"wishes/regrets"},
+    {n:4,sent:"I could never have succeeded without your help.",key:"YOU",pre:"I could never have succeeded",blank:"without you helping",post:"me.",hint:"without + object + gerund",grammar:"prepositions"},
+    {n:5,sent:"I thought I might run out of cash, so I took my cash card.",key:"CASE",pre:"I took my cash card with me",blank:"in case I ran",post:"out of cash.",hint:"in case + past simple",grammar:"linking words"},
+    {n:6,sent:"Linda's plans for a picnic have been spoilt by the weather.",key:"FALLEN",pre:"Linda's plans for a picnic",blank:"have fallen through",post:"because of the weather.",hint:"phrasal verb: fall through",grammar:"phrasal verbs"},
+    {n:7,sent:"The bread was too stale to eat.",key:"FRESH",pre:"The bread",blank:"was not fresh enough",post:"to eat.",hint:"not + adjective + enough",grammar:"too/enough"},
+    {n:8,sent:"Brian went home early.",key:"MAY",pre:"Brian",blank:"may have gone",post:"home early.",hint:"may + have + past participle",grammar:"modals"},
+    {n:9,sent:"I can't possibly work in all this noise!",key:"IMPOSSIBLE",pre:"It",blank:"is impossible to",post:"work in all this noise!",hint:"It is impossible to + infinitive",grammar:"impersonal"},
+    {n:10,sent:"The thief suddenly realised that the police were watching.",key:"WATCHED",pre:"The thief suddenly realised that he",blank:"was being watched",post:"by the police.",hint:"past continuous passive",grammar:"passive voice"},
+    {n:11,sent:"Do you know who this coat belongs to?",key:"COAT",pre:"Do you know",blank:"whose coat this",post:"is?",hint:"whose + noun",grammar:"relative clauses"},
+    {n:12,sent:"Jo's training accident meant she couldn't take part in the race.",key:"PREVENTED",pre:"Jo's training accident",blank:"prevented her taking",post:"part in the race.",hint:"prevent + object + gerund",grammar:"reporting verbs"},
+    {n:13,sent:"Cyclists are not allowed to ride on the station platform.",key:"MUST",pre:"Bicycles",blank:"must not be ridden",post:"on the station platform.",hint:"must not be + past participle",grammar:"modals/passive"},
+    {n:14,sent:"To Alan's amazement, the passport office was closed when he arrived.",key:"FIND",pre:"Alan",blank:"was amazed to find",post:"the passport office closed when he arrived.",hint:"be + adjective + infinitive",grammar:"adjective + infinitive"},
+    {n:15,sent:"It isn't necessary to book tickets for the show in advance.",key:"NEED",pre:"You",blank:"don't need to book",post:"tickets for the show in advance.",hint:"don't need to + infinitive",grammar:"modals"},
+    {n:16,sent:"The top shelf was so high that the child couldn't reach it.",key:"HIGH",pre:"The top shelf was",blank:"too high for",post:"the child to reach.",hint:"too + adjective + for + object",grammar:"too/enough"},
+    {n:17,sent:"I'd prefer you to start work next week.",key:"RATHER",pre:"I",blank:"would rather you started",post:"work next week.",hint:"would rather + past subjunctive",grammar:"preferences"},
+    {n:18,sent:"'Do you remember what you have to do?' she asked her class.",key:"WHAT",pre:"She asked her class if",blank:"they remembered what they had to",post:"do.",hint:"reported question + backshift",grammar:"reported speech"},
+    {n:19,sent:"It's unusual for Carol to get angry with her staff.",key:"HARDLY",pre:"Carol",blank:"hardly ever loses",post:"her temper with her staff.",hint:"hardly ever + verb",grammar:"frequency adverbs"},
+    {n:20,sent:"There is no ice-cream left.",key:"RUN",pre:"We",blank:"have run out of",post:"ice-cream.",hint:"run out of",grammar:"phrasal verbs"},
+  ]},
+  {label:"21–40",range:[21,40],items:[
+    {n:21,sent:"There's no point in asking George to help.",key:"WORTH",pre:"It",blank:"is not worth asking",post:"George to help.",hint:"it is not worth + gerund",grammar:"worth/point"},
+    {n:22,sent:"Harry couldn't get his parents' permission to buy a motorbike.",key:"LET",pre:"Harry's parents",blank:"wouldn't let him buy",post:"a motorbike.",hint:"let + object + infinitive",grammar:"causatives"},
+    {n:23,sent:"'Where have I left my sunglasses, David?' asked Susan.",key:"WHERE",pre:"Susan asked David",blank:"where she had left",post:"her sunglasses.",hint:"reported question, backshift",grammar:"reported speech"},
+    {n:24,sent:"John's behaviour at the party annoyed me.",key:"JOHN",pre:"I was annoyed by",blank:"John's behaviour",post:"at the party.",hint:"possessive noun",grammar:"noun phrases"},
+    {n:25,sent:"It's a good thing you lent me the money or I would have had to go to the bank.",key:"NOT",pre:"If you had",blank:"not lent",post:"me the money, I would have had to go to the bank.",hint:"third conditional",grammar:"conditionals"},
+    {n:26,sent:"Matthew didn't listen to what his doctor told him.",key:"NOTICE",pre:"Matthew took",blank:"no notice of",post:"what his doctor said.",hint:"take no notice of",grammar:"fixed expressions"},
+    {n:27,sent:"Sheila had to finish the accounts and write several letters.",key:"ADDITION",pre:"Sheila had to finish the accounts",blank:"in addition to writing",post:"several letters.",hint:"in addition to + gerund",grammar:"linking words"},
+    {n:28,sent:"When he was a child in Australia, Mark went swimming almost every day.",key:"HIS",pre:"Mark went swimming almost every day",blank:"during his time",post:"in Australia.",hint:"during + noun phrase",grammar:"time expressions"},
+    {n:29,sent:"Let's visit the museum this afternoon.",key:"GO",pre:"Why",blank:"don't we go to",post:"the museum this afternoon?",hint:"Why don't we + infinitive",grammar:"suggestions"},
+    {n:30,sent:"Lou found it hard to concentrate because of the noise.",key:"DIFFICULTY",pre:"Valerie",blank:"had difficulty in",post:"concentrating because of the noise.",hint:"have difficulty in + gerund",grammar:"difficulty/trouble"},
+    {n:31,sent:"'Why don't you wait by the phone box, Brenda?' said Leslie.",key:"BRENDA",pre:"Leslie suggested",blank:"Brenda should wait",post:"by the phone box.",hint:"suggest + subject + should",grammar:"reported speech"},
+    {n:32,sent:"Although he overslept, Clive wasn't late for work.",key:"UP",pre:"Despite",blank:"oversleeping but turning",post:"up on time, Clive wasn't late for work.",hint:"despite + gerund",grammar:"concession"},
+    {n:33,sent:"I haven't eaten food like this before.",key:"TIME",pre:"This is the",blank:"first time I've eaten",post:"this sort of food.",hint:"first time + present perfect",grammar:"time expressions"},
+    {n:34,sent:"After a long chase, the police succeeded in arresting him.",key:"TO",pre:"After a long chase, the police",blank:"managed to arrest",post:"the thief.",hint:"manage to + infinitive",grammar:"succeed/manage"},
+    {n:35,sent:"Diane was supposed to write to her parents last week.",key:"OUGHT",pre:"Diane",blank:"ought to have written",post:"to her parents last week.",hint:"ought to have + past participle",grammar:"modals"},
+    {n:36,sent:"His handwriting is so small I can hardly read it.",key:"SUCH",pre:"He",blank:"has such small writing",post:"I can hardly read it.",hint:"such + adjective + noun",grammar:"so/such"},
+    {n:37,sent:"Somebody has to pick the visitors up from the airport.",key:"UP",pre:"The visitors",blank:"must be picked up",post:"from the airport.",hint:"passive + modal",grammar:"passive voice"},
+    {n:38,sent:"I wish I hadn't told him what I was planning today.",key:"REGRET",pre:"I",blank:"regret telling him",post:"what I was planning for today.",hint:"regret + gerund",grammar:"regret"},
+    {n:39,sent:"Everyone was surprised to see Geoff leave the party early.",key:"SURPRISE",pre:"To",blank:"everyone's surprise, Geoff left",post:"the party early.",hint:"To everyone's surprise",grammar:"surprise expressions"},
+    {n:40,sent:"All the witnesses said the accident was my fault.",key:"BLAME",pre:"All the witnesses said that",blank:"I was to blame for",post:"the accident.",hint:"to blame for",grammar:"blame"},
+  ]},
+  {label:"41–60",range:[41,60],items:[
+    {n:41,sent:"No one has explained why our flight is delayed.",key:"REASON",pre:"No one has",blank:"explained the reason for",post:"the delay to our flight.",hint:"reason for + noun",grammar:"noun phrases"},
+    {n:42,sent:"I'd rather you didn't phone me at work.",key:"PREFER",pre:"I'd",blank:"prefer you not to",post:"phone me at work.",hint:"prefer + object + not to + infinitive",grammar:"preferences"},
+    {n:43,sent:"When I wanted a new car, I had to save up for a year.",key:"ME",pre:"It",blank:"took me a year to",post:"save up to buy a new car.",hint:"It took + object + time",grammar:"time expressions"},
+    {n:44,sent:"They are letting David out of hospital next week.",key:"RELEASED",pre:"David",blank:"will be released from",post:"hospital next week.",hint:"will be released from",grammar:"passive voice"},
+    {n:45,sent:"'Did you leave a tip for the waiter, Dad?' I asked.",key:"HE",pre:"I asked my father",blank:"whether he had left",post:"a tip for the waiter.",hint:"reported question + backshift",grammar:"reported speech"},
+    {n:46,sent:"We didn't expect to win the game, but we played it anyway.",key:"SPITE",pre:"In",blank:"spite of not expecting",post:"to win the game, we played it anyway.",hint:"in spite of + gerund",grammar:"concession"},
+    {n:47,sent:"I do not intend to tell you my plans.",key:"INTENTION",pre:"I",blank:"have no intention of telling",post:"you my plans.",hint:"have no intention of + gerund",grammar:"intention"},
+    {n:48,sent:"Don't sign for the parcel until you have checked that everything is there.",key:"YOU",pre:"Make sure that nothing is",blank:"missing before you sign",post:"for the parcel.",hint:"before + clause",grammar:"conditionals"},
+    {n:49,sent:"Sasha only moved to a new class because her teacher recommended it.",key:"SASHA",pre:"If her teacher hadn't recommended it,",blank:"Sasha would not have moved",post:"to a new class.",hint:"third conditional",grammar:"conditionals"},
+    {n:50,sent:"The motor in this machine needs cleaning once a week.",key:"HAS",pre:"The motor in this machine",blank:"has to be cleaned",post:"once a week.",hint:"has to be + past participle",grammar:"passive/obligation"},
+    {n:51,sent:"It would be difficult for me to finish the work by tomorrow.",key:"DIFFICULTY",pre:"I",blank:"would have difficulty finishing",post:"the work by the weekend.",hint:"have difficulty + gerund",grammar:"difficulty"},
+    {n:52,sent:"Harry's home is still in Spain, is it?",key:"LIVES",pre:"Harry",blank:"still lives in Spain,",post:"doesn't he?",hint:"question tags",grammar:"question tags"},
+    {n:53,sent:"When Sandra came in, she didn't say hello to anyone.",key:"WITHOUT",pre:"Sandra",blank:"came in without saying",post:"hello to anyone.",hint:"without + gerund",grammar:"prepositions"},
+    {n:54,sent:"You can borrow my bike if you're in a hurry.",key:"MIND",pre:"I",blank:"don't mind lending",post:"you my bike if you're in a hurry.",hint:"don't mind + gerund",grammar:"mind"},
+    {n:55,sent:"Angus rarely takes a holiday.",key:"RARE",pre:"It",blank:"is rare for him to",post:"take a holiday.",hint:"it is rare for + object + infinitive",grammar:"impersonal"},
+    {n:56,sent:"We lost the game because of my mistake.",key:"FAULT",pre:"It was",blank:"my fault we didn't",post:"win the game.",hint:"fault + clause",grammar:"blame"},
+    {n:57,sent:"Are you planning to do anything on Saturday?",key:"PLANS",pre:"Do",blank:"you have any plans for",post:"Saturday?",hint:"have plans for",grammar:"future plans"},
+    {n:58,sent:"Tim looks nothing like his father.",key:"TAKE",pre:"Tim",blank:"doesn't take after",post:"his father at all.",hint:"take after = resemble",grammar:"phrasal verbs"},
+    {n:59,sent:"The film I saw last week was better than this one.",key:"GOOD",pre:"This film",blank:"is not as good as",post:"the one I saw last week.",hint:"not as + adjective + as",grammar:"comparison"},
+    {n:60,sent:"I regret giving Dennis my phone number.",key:"DENNIS",pre:"I",blank:"wish I hadn't given",post:"Dennis my phone number.",hint:"wish + past perfect",grammar:"wishes/regrets"},
+  ]},
+  {label:"61–80",range:[61,80],items:[
+    {n:61,sent:"I'd rather not spend another day at the beach.",key:"FEEL",pre:"I",blank:"don't feel like spending",post:"another day at the beach.",hint:"feel like + gerund",grammar:"feelings"},
+    {n:62,sent:"I've never seen a match as good as this before.",key:"MATCH",pre:"This is the",blank:"best match I've",post:"ever seen.",hint:"superlative + ever",grammar:"superlatives"},
+    {n:63,sent:"The staff in that office all have great respect for their boss.",key:"LOOK",pre:"The staff in that office all",blank:"look up to",post:"their boss.",hint:"look up to = respect",grammar:"phrasal verbs"},
+    {n:64,sent:"'Is there anything you want from the shops?' Alison asked her mother.",key:"THERE",pre:"Alison asked her mother if",blank:"there was anything she wanted",post:"from the shops.",hint:"reported question",grammar:"reported speech"},
+    {n:65,sent:"Sally might not bring her camera to the party, so I'll take mine.",key:"IN",pre:"I'll take my camera to the party",blank:"in case she doesn't",post:"bring hers.",hint:"in case + clause",grammar:"linking words"},
+    {n:66,sent:"We missed the turning because we forgot to take a map.",key:"REMEMBERED",pre:"If",blank:"we had remembered to take",post:"a map, we wouldn't have missed the turning.",hint:"third conditional",grammar:"conditionals"},
+    {n:67,sent:"June was sure there were no mistakes in her homework.",key:"NOTHING",pre:"June was sure",blank:"there was nothing wrong",post:"with her homework.",hint:"nothing wrong with",grammar:"fixed phrases"},
+    {n:68,sent:"Although the weather changed, the picnic went ahead as planned.",key:"SPITE",pre:"The picnic went ahead as planned",blank:"in spite of the change",post:"in the weather.",hint:"in spite of + noun",grammar:"concession"},
+    {n:69,sent:"I advise you to think carefully before accepting William's offer.",key:"BETTER",pre:"You",blank:"had better think",post:"carefully before accepting William's offer.",hint:"had better + infinitive",grammar:"advice"},
+    {n:70,sent:"Jackie hasn't been swimming for five years.",key:"SWIMMING",pre:"The last",blank:"time she went swimming",post:"was five years ago.",hint:"the last time + past simple",grammar:"time expressions"},
+    {n:71,sent:"Martin hasn't mentioned the party to me at all.",key:"WORD",pre:"Martin hasn't",blank:"said a word",post:"about the party.",hint:"say a word",grammar:"fixed phrases"},
+    {n:72,sent:"Apparently, Sheila wasn't listening to me.",key:"APPEAR",pre:"Sheila",blank:"appears not to have been",post:"listening to me.",hint:"appear + not + infinitive",grammar:"reporting verbs"},
+    {n:73,sent:"Margaret was offered a place but couldn't accept because she was ill.",key:"TURN",pre:"Margaret was offered a place but",blank:"had to turn it down",post:"because she was ill.",hint:"turn down = decline",grammar:"phrasal verbs"},
+    {n:74,sent:"'I wouldn't trust Frank if I were you, Carl,' I said.",key:"ADVISED",pre:"I",blank:"advised Carl not to trust",post:"Frank.",hint:"advise + object + not + infinitive",grammar:"reporting verbs"},
+    {n:75,sent:"I don't know Lesley's reasons for resigning.",key:"IDEA",pre:"I",blank:"have no idea why",post:"Lesley resigned.",hint:"have no idea why",grammar:"fixed phrases"},
+    {n:76,sent:"Have you any desks in stock which are cheaper than this?",key:"DESK",pre:"Is this",blank:"the most expensive desk",post:"you have in stock?",hint:"superlative",grammar:"comparison"},
+    {n:77,sent:"Teams of experts were examining the damage to the building.",key:"EXAMINED",pre:"The damage to the building",blank:"was being examined by",post:"teams of experts.",hint:"past continuous passive",grammar:"passive voice"},
+    {n:78,sent:"Joe's father used to insist that he washed the car at the weekend.",key:"MAKE",pre:"Joe's father used to",blank:"make him wash",post:"the car at the weekend.",hint:"make + object + infinitive",grammar:"causatives"},
+    {n:79,sent:"I wish John still wrote to me.",key:"MISS",pre:"I",blank:"miss getting letters",post:"from John.",hint:"miss + gerund",grammar:"miss"},
+    {n:80,sent:"Everyone thinks Alan will accept the job within the next few days.",key:"EXPECTED",pre:"Alan",blank:"is expected to accept",post:"the job within the next few days.",hint:"be expected to + infinitive",grammar:"passive reporting"},
+  ]},
+  {label:"81–100",range:[81,100],items:[
+    {n:81,sent:"'Would you prefer to have a table by the window?' the waiter asked.",key:"WE",pre:"The waiter asked us",blank:"whether we would prefer",post:"to have a table by the window.",hint:"reported question",grammar:"reported speech"},
+    {n:82,sent:"I'm getting bored here – let's go to a different place.",key:"WE",pre:"I'm getting bored here – why",blank:"don't we go somewhere",post:"else?",hint:"Why don't we + infinitive",grammar:"suggestions"},
+    {n:83,sent:"I really didn't want to queue for tickets so I bought them by phone.",key:"AVOID",pre:"I was anxious",blank:"to avoid queuing",post:"for tickets, so I bought them by phone.",hint:"anxious to avoid + gerund",grammar:"avoidance"},
+    {n:84,sent:"I couldn't decide whether I preferred the blue shirt or the green one.",key:"CHOICE",pre:"I couldn't",blank:"make a choice between",post:"the blue shirt and the green one.",hint:"make a choice between",grammar:"decision"},
+    {n:85,sent:"Despite his disappointment, he continued to be cheerful.",key:"REMAINED",pre:"Although he was disappointed, he",blank:"remained cheerful",post:".",hint:"remain + adjective",grammar:"contrast"},
+    {n:86,sent:"There were so many people on the train that I couldn't get a seat.",key:"CROWDED",pre:"The train was",blank:"so crowded that there was",post:"nowhere for me to sit.",hint:"so + adjective + that",grammar:"so/such"},
+    {n:87,sent:"The price of the books was less than I had expected.",key:"NOT",pre:"The books",blank:"did not cost as much as",post:"I had expected.",hint:"not as much as",grammar:"comparison"},
+    {n:88,sent:"My sister would never watch television until she had done her homework.",key:"WATCHING",pre:"My sister always",blank:"finished her homework before watching",post:"television.",hint:"before + gerund",grammar:"sequencing"},
+    {n:89,sent:"It appears that we have no bread left.",key:"RUN",pre:"We",blank:"seem to have run out of",post:"bread.",hint:"seem to have + past participle",grammar:"appear/seem"},
+    {n:90,sent:"We last went to Spain three years ago.",key:"YEARS",pre:"It",blank:"has been three years since",post:"we last went to Spain.",hint:"it has been + time + since",grammar:"time expressions"},
+    {n:91,sent:"The course finished with a big party.",key:"END",pre:"At",blank:"the end of the course",post:"there was a big party.",hint:"at the end of",grammar:"time expressions"},
+    {n:92,sent:"Be careful or you'll hurt yourself.",key:"IF",pre:"You'll hurt yourself",blank:"if you aren't",post:"careful.",hint:"conditional",grammar:"conditionals"},
+    {n:93,sent:"Finding suitable accommodation might be difficult.",key:"FIND",pre:"It",blank:"might be difficult to find",post:"suitable accommodation.",hint:"It might be difficult to",grammar:"impersonal"},
+    {n:94,sent:"The price of the holiday includes all meals.",key:"INCLUDED",pre:"All",blank:"meals are included in",post:"the price of the holiday.",hint:"be included in",grammar:"passive voice"},
+    {n:95,sent:"In my opinion, the problem has happened for two reasons.",key:"ARE",pre:"In my opinion,",blank:"there are two reasons",post:"why this problem has happened.",hint:"there are + noun + why",grammar:"reason clauses"},
+    {n:96,sent:"'You broke my camera!' Susan said to Richard.",key:"ACCUSED",pre:"Susan",blank:"accused him of breaking",post:"her camera.",hint:"accuse + object + of + gerund",grammar:"reporting verbs"},
+    {n:97,sent:"You're going too fast for me.",key:"KEEP",pre:"I",blank:"can't keep up with",post:"you!",hint:"keep up with",grammar:"phrasal verbs"},
+    {n:98,sent:"Where can I find the station?",key:"HOW",pre:"Could you tell",blank:"me how to get",post:"to the station?",hint:"indirect question",grammar:"indirect questions"},
+    {n:99,sent:"Mary used to be better paid than she is these days.",key:"AS",pre:"These days Mary",blank:"is not as well",post:"paid as she used to be.",hint:"not as well as",grammar:"comparison"},
+    {n:100,sent:"I'm happy to go and see any film you choose.",key:"MIND",pre:"I",blank:"don't mind which film",post:"we go and see.",hint:"don't mind + question word",grammar:"preferences"},
+  ]},
+  {label:"101–120",range:[101,120],items:[
+    {n:101,sent:"We took a train to Liverpool last Saturday.",key:"BY",pre:"We",blank:"went to Liverpool by train",post:"last Saturday.",hint:"by + transport noun",grammar:"transport"},
+    {n:102,sent:"She did not thank us for our help when she left.",key:"US",pre:"She left",blank:"without thanking us for our",post:"help.",hint:"without + gerund",grammar:"prepositions"},
+    {n:103,sent:"We are hoping that the weather will improve next week.",key:"BETTER",pre:"We are hoping",blank:"for better weather",post:"next week.",hint:"hope for + noun",grammar:"hope"},
+    {n:104,sent:"Who has to lock the doors when the office closes?",key:"RESPONSIBLE",pre:"Who",blank:"is responsible for locking",post:"the doors when the office closes?",hint:"responsible for + gerund",grammar:"responsibility"},
+    {n:105,sent:"I was really pleased that at last my father had managed to give up smoking.",key:"SUCCESSFUL",pre:"I was really pleased that at last my father",blank:"was successful in giving",post:"up smoking.",hint:"be successful in + gerund",grammar:"success"},
+    {n:106,sent:"I went to sleep immediately the train left the station.",key:"ASLEEP",pre:"I",blank:"fell asleep as soon",post:"as the train left the station.",hint:"as soon as",grammar:"time expressions"},
+    {n:107,sent:"It's unlikely that I'll see you again this week.",key:"PROBABLY",pre:"We",blank:"will probably not see",post:"each other again this week.",hint:"will probably not",grammar:"likelihood"},
+    {n:108,sent:"It will be nice to see you again at the party.",key:"LOOKING",pre:"I'm",blank:"looking forward to seeing",post:"you again at the party.",hint:"look forward to + gerund",grammar:"look forward to"},
+    {n:109,sent:"I haven't forgotten any of the details of what happened that day.",key:"STILL",pre:"I",blank:"still remember every",post:"detail of what happened that day.",hint:"still remember every",grammar:"memory"},
+    {n:110,sent:"We lost our way because the signposts were confusing.",key:"CAUSED",pre:"The signposts were confusing, which",blank:"caused us to lose",post:"our way.",hint:"cause + object + infinitive",grammar:"causation"},
+    {n:111,sent:"She did not buy the car because it was too expensive.",key:"IT",pre:"She would have bought the car",blank:"if it hadn't been",post:"so expensive.",hint:"third conditional",grammar:"conditionals"},
+    {n:112,sent:"He managed to make some extra money by writing stories.",key:"ORDER",pre:"He wrote stories",blank:"in order to make",post:"some extra money.",hint:"in order to + infinitive",grammar:"purpose"},
+    {n:113,sent:"My father thinks that people who watch television are wasting their time.",key:"A",pre:"My father thinks watching television",blank:"is a waste of",post:"people's time.",hint:"a waste of",grammar:"noun phrases"},
+    {n:114,sent:"You won't have to go to the meeting next week.",key:"NECESSARY",pre:"It will",blank:"not be necessary",post:"to go to the meeting next week.",hint:"it will not be necessary",grammar:"necessity"},
+    {n:115,sent:"My friend had not expected the film to be so funny.",key:"FRIEND",pre:"The film",blank:"was funnier than my",post:"friend had expected.",hint:"comparative",grammar:"comparison"},
+    {n:116,sent:"Martin has to wear his glasses to read the newspaper.",key:"WITHOUT",pre:"Martin",blank:"cannot read the newspaper without wearing",post:"his glasses.",hint:"without + gerund",grammar:"prepositions"},
+    {n:117,sent:"Alan's children are never invited to parties now because of their bad behaviour.",key:"THAT",pre:"Alan's children behave so badly",blank:"that explains why",post:"they are never invited to parties.",hint:"that explains why",grammar:"cause/result"},
+    {n:118,sent:"It was fortunate for him that he wasn't injured in the accident.",key:"LUCKY",pre:"He",blank:"was lucky not to be",post:"injured in the accident.",hint:"lucky + not + infinitive",grammar:"luck"},
+    {n:119,sent:"Carole is the only person I know who enjoys homework.",key:"APART",pre:"I don't know",blank:"anyone apart from Carole",post:"who enjoys homework.",hint:"apart from",grammar:"exception"},
+    {n:120,sent:"I did not think that Peter would phone tonight.",key:"UNLIKELY",pre:"I",blank:"thought it unlikely that Peter would",post:"phone tonight.",hint:"unlikely + that",grammar:"likelihood"},
+  ]},
+  {label:"121–140",range:[121,140],items:[
+    {n:121,sent:"Ballet doesn't interest Sonia.",key:"INTERESTED",pre:"Sonia",blank:"is not interested in",post:"ballet.",hint:"be interested in",grammar:"adjectives + prepositions"},
+    {n:122,sent:"Visitors to the zoo are not allowed to feed the animals.",key:"MUST",pre:"The animals",blank:"must not be fed",post:"by visitors to the zoo.",hint:"must not be + past participle",grammar:"passive/modals"},
+    {n:123,sent:"John had not been to London before.",key:"VISIT",pre:"It",blank:"was John's first visit to",post:"London.",hint:"first visit to",grammar:"first time"},
+    {n:124,sent:"'I'll see you later, Anne,' he said.",key:"TOLD",pre:"He",blank:"told Anne he would",post:"see her later.",hint:"told + object + would",grammar:"reported speech"},
+    {n:125,sent:"There were more students in school in 1992 than in 1991.",key:"AS",pre:"There were",blank:"not as many students",post:"in school in 1991 as in 1992.",hint:"not as many as",grammar:"comparison"},
+    {n:126,sent:"When I was in the shop, someone thought I was the boss.",key:"ME",pre:"When I was in the shop, someone",blank:"mistook me for",post:"the boss.",hint:"mistake for",grammar:"phrasal verbs"},
+    {n:127,sent:"I wonder how she learnt to speak English so well.",key:"LIKE",pre:"I",blank:"would like to know how",post:"she learnt to speak English so well.",hint:"would like to know",grammar:"indirect questions"},
+    {n:128,sent:"Although he can't swim well, Dan is very keen on boats.",key:"UNABLE",pre:"Despite",blank:"being unable to swim well,",post:"Dan is very keen on boats.",hint:"despite + gerund + unable",grammar:"concession"},
+    {n:129,sent:"I am totally convinced that our team will win.",key:"CHANCE",pre:"In my opinion, there",blank:"is no chance of",post:"our team losing.",hint:"no chance of + gerund",grammar:"likelihood"},
+    {n:130,sent:"How lucky you called or we wouldn't have known about it.",key:"YOU",pre:"We wouldn't have known what",blank:"had happened if you",post:"hadn't called.",hint:"third conditional",grammar:"conditionals"},
+    {n:131,sent:"Luisa was the only one who didn't enjoy the film.",key:"APART",pre:"Everybody",blank:"enjoyed the film apart from",post:"Luisa.",hint:"apart from",grammar:"exception"},
+    {n:132,sent:"They're going to demolish that old power station.",key:"PULLED",pre:"That old power station",blank:"is going to be pulled",post:"down.",hint:"passive + phrasal verb",grammar:"passive voice"},
+    {n:133,sent:"My sister began to learn Russian five years ago.",key:"LEARNING",pre:"My sister",blank:"has been learning Russian for",post:"five years.",hint:"present perfect continuous + for",grammar:"time expressions"},
+    {n:134,sent:"'Do not answer the phone, Rebecca!' said Mrs Miniver.",key:"NOT",pre:"Mrs Miniver",blank:"told Rebecca not to",post:"answer the phone.",hint:"tell + object + not + infinitive",grammar:"reported speech"},
+    {n:135,sent:"The trip to Chicago was cheaper than I had expected.",key:"AS",pre:"The trip to Chicago",blank:"was not as expensive as",post:"I had expected.",hint:"not as expensive as",grammar:"comparison"},
+    {n:136,sent:"My car was so badly damaged that I didn't repair it.",key:"POINT",pre:"My car was so badly damaged that",blank:"there was no point in",post:"repairing it.",hint:"no point in + gerund",grammar:"worth/point"},
+    {n:137,sent:"I expect you were exhausted after your long journey.",key:"BEEN",pre:"You",blank:"must have been absolutely",post:"exhausted after your long journey.",hint:"must have been",grammar:"deduction"},
+    {n:138,sent:"It was unfair that the gymnast was given such low marks.",key:"DESERVE",pre:"The gymnast",blank:"didn't deserve to be",post:"given such low marks.",hint:"deserve + infinitive",grammar:"deserve"},
+    {n:139,sent:"This bottle is completely empty.",key:"LEFT",pre:"There's",blank:"nothing left in this",post:"bottle.",hint:"nothing left",grammar:"negative"},
+    {n:140,sent:"My uncle did not learn to drive until he was forty.",key:"WHEN",pre:"My uncle",blank:"was forty when he finally",post:"learnt to drive.",hint:"when + age",grammar:"time expressions"},
+  ]},
+  {label:"141–160",range:[141,160],items:[
+    {n:141,sent:"I haven't seen my brother since he left for Australia.",key:"LAST",pre:"The",blank:"last time I saw",post:"my brother was before he left for Australia.",hint:"last time + past simple",grammar:"time expressions"},
+    {n:142,sent:"The price of the holiday includes the cost of insurance.",key:"IS",pre:"The cost of insurance",blank:"is included in",post:"the price of the holiday.",hint:"be included in",grammar:"passive voice"},
+    {n:143,sent:"'If you wanted to take my car, you should have asked me first,' said Tom to his son.",key:"WITHOUT",pre:"Tom criticised his son for having",blank:"taken his car without asking",post:"him first.",hint:"without + gerund",grammar:"prepositions"},
+    {n:144,sent:"You ought to get your bicycle brakes repaired immediately.",key:"BETTER",pre:"You",blank:"had better get your",post:"bicycle brakes repaired immediately.",hint:"had better + infinitive",grammar:"advice"},
+    {n:145,sent:"Sarah is not usually late.",key:"LIKE",pre:"It is",blank:"not like Sarah to be",post:"late.",hint:"it is not like + object + infinitive",grammar:"character"},
+    {n:146,sent:"I would prefer it if nobody else knew what happened last night.",key:"WANT",pre:"I don't",blank:"want anyone else to know",post:"what happened last night.",hint:"want + object + infinitive",grammar:"preferences"},
+    {n:147,sent:"It was snowing so they cancelled the football match.",key:"OWING",pre:"The football match",blank:"was cancelled owing to",post:"the snow.",hint:"owing to + noun",grammar:"cause/reason"},
+    {n:148,sent:"The taxi may be expensive so take plenty of money.",key:"CASE",pre:"Take plenty of money",blank:"in case the taxi is",post:"expensive.",hint:"in case + clause",grammar:"linking words"},
+    {n:149,sent:"They couldn't understand the lecturer because she spoke so fast.",key:"TOO",pre:"The lecturer",blank:"spoke too fast for them",post:"to understand.",hint:"too + adverb + for + object",grammar:"too/enough"},
+    {n:150,sent:"The manager said I could have three days off.",key:"PERMISSION",pre:"The manager",blank:"gave me permission to have",post:"three days off.",hint:"give permission to + infinitive",grammar:"permission"},
+    {n:151,sent:"I didn't know it was your birthday, so I didn't send you a card.",key:"SENT",pre:"If I'd known it was your birthday, I",blank:"would have sent you",post:"a card.",hint:"third conditional",grammar:"conditionals"},
+    {n:152,sent:"After the match Lucy was so tired that she couldn't eat much.",key:"TOO",pre:"After the match Lucy was",blank:"too tired to eat",post:"much.",hint:"too tired to",grammar:"too/enough"},
+    {n:153,sent:"I've had enough of your untidiness.",key:"PUT",pre:"I refuse",blank:"to put up with",post:"your untidiness any more.",hint:"put up with",grammar:"phrasal verbs"},
+    {n:154,sent:"Can I borrow your surfboard?",key:"LENDING",pre:"Would",blank:"you mind lending me",post:"your surfboard?",hint:"would you mind + gerund",grammar:"requests"},
+    {n:155,sent:"My parents didn't let me stay out late when I was younger.",key:"ALLOWED",pre:"I",blank:"was not allowed to stay",post:"out late when I was younger.",hint:"be allowed to + infinitive",grammar:"permission/passive"},
+    {n:156,sent:"How long was your flight from Frankfurt to Seoul?",key:"TAKE",pre:"How long",blank:"did it take to",post:"fly from Frankfurt to Seoul?",hint:"take + time + infinitive",grammar:"duration"},
+    {n:157,sent:"The last time I went skiing was ten years ago.",key:"FOR",pre:"I",blank:"have not been skiing for",post:"ten years.",hint:"present perfect + for",grammar:"time expressions"},
+    {n:158,sent:"Derek has gone to Florida, in spite of being unable to afford such an expensive holiday.",key:"ALTHOUGH",pre:"Derek has gone to Florida,",blank:"although he was unable",post:"to afford such an expensive holiday.",hint:"although + clause",grammar:"concession"},
+    {n:159,sent:"Teenagers aren't buying as many pop records these days.",key:"BOUGHT",pre:"Not so many pop records",blank:"are being bought by teenagers",post:"these days.",hint:"present continuous passive",grammar:"passive voice"},
+    {n:160,sent:"I regret inviting Nancy to the party.",key:"WISH",pre:"I",blank:"wish I hadn't invited",post:"Nancy to the party.",hint:"wish + past perfect",grammar:"wishes/regrets"},
+  ]},
+];
+
+// Grammar groups (from the PDF categories + derived from grammar tags)
+const GRAMMAR_GROUPS = [
+  {label:"Conditionals & Wishes", tags:["conditionals","wishes/regrets","regret"]},
+  {label:"Passive Voice", tags:["passive voice","passive/obligation","passive/modals","passive reporting"]},
+  {label:"Reported Speech", tags:["reported speech","reporting verbs"]},
+  {label:"Modal Verbs", tags:["modals","modals/passive","deduction","likelihood"]},
+  {label:"Gerund & Infinitive", tags:["gerund/infinitive","too/enough","worth/point","mind","avoidance","intention","difficulty","difficulty/trouble","succeed/manage","miss","adjective + infinitive"]},
+  {label:"Tenses", tags:["time expressions","first time","frequency adverbs","sequencing","memory","duration","appear/seem"]},
+  {label:"Comparatives", tags:["comparison","superlatives","so/such"]},
+  {label:"Linking Words", tags:["linking words","concession","cause/reason","cause/result","purpose","contrast"]},
+  {label:"Fixed Expressions", tags:["fixed expressions","fixed phrases","blame","surprise expressions","exception","reason clauses","negative"]},
+  {label:"Phrasal Verbs", tags:["phrasal verbs"]},
+  {label:"Other Structures", tags:["impersonal","indirect questions","preferences","suggestions","causatives","noun phrases","adjectives + prepositions","relative clauses","question tags","prepositions","permission","permission/passive","advice","character","future plans","transport","hope","responsibility","success","luck","causation","necessity","feelings"]},
+];
+
+const ALL = SEQ_PAGES.flatMap(p => p.items);
+
+// Build grammar pages from groups
+const GRAM_PAGES = GRAMMAR_GROUPS.map(g => {
+  const items = ALL.filter(it => g.tags.includes(it.grammar));
+  return {label: g.label, items, range: items.length ? [items[0].n, items[items.length-1].n] : [0,0]};
+}).filter(g => g.items.length > 0);
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let grammarMode = false;
+let curIdx = 0;
+let answered = {};
+let gOk=0, gErr=0, gAnswered=0;
+
+function getPages(){ return grammarMode ? GRAM_PAGES : SEQ_PAGES; }
+function getList(){
+  if(grammarMode){
+    const pi = curPageIdx();
+    return GRAM_PAGES[pi].items;
+  }
+  return ALL;
+}
+
+function curPageIdx(){
+  const pages = getPages();
+  const item = getActiveList()[curIdx];
+  if(!item) return 0;
+  return pages.findIndex(p => p.items.some(it=>it.n===item.n));
+}
+
+let seqCurIdx=0, gramCurIdx=0, gramPageIdx=0;
+
+function getActiveList(){
+  if(grammarMode){
+    return GRAM_PAGES[gramPageIdx].items;
+  }
+  return ALL;
+}
+
+// ═══════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════
+function buildTabs(){
+  const c=document.getElementById('tabs');
+  c.innerHTML='';
+  const pages = getPages();
+  pages.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='tab';
+    b.id='tab-'+i;
+    b.textContent=p.label;
+    b.onclick=()=>goToPage(i);
+    c.appendChild(b);
+  });
+  updateTabs();
+}
+
+function updateTabs(){
+  const pages=getPages();
+  const activePage = grammarMode ? gramPageIdx : getSeqPage();
+  pages.forEach((p,i)=>{
+    const t=document.getElementById('tab-'+i);
+    if(!t)return;
+    t.classList.remove('active','grammar-active','tok','tmix');
+    if(i===activePage) t.classList.add(grammarMode?'grammar-active':'active');
+    let ok=0,done=0;
+    p.items.forEach(it=>{ if(answered[it.n]){done++; if(answered[it.n]==='ok')ok++; }});
+    if(done===p.items.length && done>0) t.classList.add(ok===p.items.length?'tok':'tmix');
+  });
+}
+
+function getSeqPage(){
+  const item=ALL[seqCurIdx];
+  return SEQ_PAGES.findIndex(p=>item&&p.items.some(it=>it.n===item.n));
+}
+
+// ═══════════════════════════════════════════════
+//  DOTS
+// ═══════════════════════════════════════════════
+function buildDots(){
+  const c=document.getElementById('dotsWrap');
+  c.innerHTML='';
+  const list = getActiveList();
+  const ci = grammarMode ? gramCurIdx : seqCurIdx;
+  list.forEach((item,i)=>{
+    const d=document.createElement('div');
+    const r=answered[item.n];
+    let cls='dn'+(i===ci?' cur'+(grammarMode?' gram':''):'')+
+      (r==='ok'?' dok':r==='err'?' derr':r==='revealed'?' drev':'');
+    d.className=cls;
+    d.title='Q'+item.n;
+    d.onclick=()=>goToInPage(i);
+    c.appendChild(d);
+  });
+  const active=c.children[grammarMode?gramCurIdx:seqCurIdx];
+  if(active) active.scrollIntoView({inline:'center',behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
+function render(){
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
+  if(!item) return;
+  const r=answered[item.n];
+
+  // counter
+  document.getElementById('qCounter').textContent=
+    'Question '+(ci+1)+' of '+list.length+
+    (grammarMode?' · '+GRAM_PAGES[gramPageIdx].label:'');
+
+  document.getElementById('origSent').textContent=item.sent;
+  const kw=document.getElementById('kwBig');
+  kw.textContent=item.key;
+  kw.className='kw-big'+(grammarMode?' gram-mode':'');
+  document.getElementById('gramTag').textContent=item.grammar;
+  document.getElementById('ansPre').textContent=item.pre;
+  document.getElementById('ansSuf').textContent=item.post;
+
+  const inp=document.getElementById('ansInput');
+  const btn=document.getElementById('checkBtn');
+  const fb=document.getElementById('feedback');
+  const ht=document.getElementById('hintText');
+
+  if(r){
+    inp.value=item.blank;
+    inp.disabled=true;
+    inp.className=r==='ok'?'ok':r==='err'?'err':'rev';
+    btn.disabled=true;
+    if(r==='ok'){fb.className='ok';fb.textContent='✓  Correct!';}
+    else if(r==='err'){fb.className='err';fb.textContent='✗  Not quite — correct answer shown.';}
+    else{fb.className='rev';fb.textContent='↳  Answer revealed.';}
+    ht.textContent=item.hint;
+  } else {
+    inp.value='';inp.disabled=false;inp.className='';
+    btn.disabled=false;
+    fb.className='';fb.textContent='';
+    ht.textContent='';
+    setTimeout(()=>inp.focus(),80);
+  }
+
+  const allList=getActiveList();
+  document.getElementById('prevBtn').disabled=(grammarMode?gramCurIdx:seqCurIdx)===0&&(grammarMode?gramPageIdx:getSeqPage())===0;
+  document.getElementById('nextBtn').disabled=(grammarMode?gramCurIdx:seqCurIdx)===allList.length-1&&(grammarMode?gramPageIdx:getSeqPage())===(getPages().length-1);
+
+  buildDots();
+  updateTabs();
+  document.getElementById('gOk').textContent=gOk;
+  document.getElementById('gErr').textContent=gErr;
+  document.getElementById('gTot').textContent=gAnswered+' / 160';
+}
+
+// ═══════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════
+function goToPage(pi){
+  if(grammarMode){
+    gramPageIdx=pi;
+    gramCurIdx=0;
+  } else {
+    const firstN=SEQ_PAGES[pi].items[0].n;
+    seqCurIdx=ALL.findIndex(it=>it.n===firstN);
+  }
+  render();
+}
+
+function goToInPage(i){
+  if(grammarMode) gramCurIdx=i;
+  else seqCurIdx=i;
+  render();
+}
+
+function goNext(){
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  if(ci<list.length-1){
+    if(grammarMode) gramCurIdx++;
+    else seqCurIdx++;
+  } else {
+    const pages=getPages();
+    const ap=grammarMode?gramPageIdx:getSeqPage();
+    if(ap<pages.length-1) goToPage(ap+1);
+  }
+  render();
+}
+
+function goPrev(){
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  if(ci>0){
+    if(grammarMode) gramCurIdx--;
+    else seqCurIdx--;
+  } else {
+    const pages=getPages();
+    const ap=grammarMode?gramPageIdx:getSeqPage();
+    if(ap>0){
+      const prevPage=pages[ap-1];
+      if(grammarMode){ gramPageIdx=ap-1; gramCurIdx=prevPage.items.length-1; }
+      else { seqCurIdx=ALL.findIndex(it=>it.n===prevPage.items[prevPage.items.length-1].n); }
+    }
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════════
+//  CHECK
+// ═══════════════════════════════════════════════
+function norm(s){ return s.trim().toLowerCase().replace(/['']/g,"'").replace(/\s+/g,' '); }
+
+function check(){
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
+  if(answered[item.n])return;
+  const inp=document.getElementById('ansInput');
+  const ok=norm(inp.value)===norm(item.blank);
+  answered[item.n]=ok?'ok':'err';
+  if(ok)gOk++; else gErr++;
+  gAnswered++;
+  render();
+}
+
+// ═══════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════
+document.getElementById('prevBtn').onclick=goPrev;
+document.getElementById('nextBtn').onclick=goNext;
+document.getElementById('checkBtn').onclick=check;
+document.getElementById('ansInput').onkeydown=e=>{if(e.key==='Enter')check();};
+
+document.getElementById('revBtn').onclick=()=>{
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
+  if(answered[item.n])return;
+  answered[item.n]='revealed';
+  gAnswered++;
+  render();
+};
+
+document.getElementById('resetBtn').onclick=()=>{
+  const pages=getPages();
+  const ap=grammarMode?gramPageIdx:getSeqPage();
+  pages[ap].items.forEach(it=>{
+    const r=answered[it.n];
+    if(r){
+      if(r==='ok')gOk--;
+      else if(r==='err')gErr--;
+      gAnswered--;
+      delete answered[it.n];
+    }
+  });
+  if(grammarMode) gramCurIdx=0;
+  else seqCurIdx=ALL.findIndex(it=>it.n===pages[ap].items[0].n);
+  render();
+};
+
+// Toggle
+document.getElementById('modeToggle').onchange=function(){
+  grammarMode=this.checked;
+  document.body.classList.toggle('gram', grammarMode);
+  document.getElementById('lblSeq').classList.toggle('active-label',!grammarMode);
+  document.getElementById('lblGram').classList.toggle('active-label',grammarMode);
+  buildTabs();
+  render();
+};
+
+// Swipe
+let tsX=0,tsY=0;
+document.addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;tsY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tsX;
+  const dy=e.changedTouches[0].clientY-tsY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){
+    if(dx<0)goNext(); else goPrev();
+  }
+},{passive:true});
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+buildTabs();
+render();
+</script>
+</body>
+</html>
