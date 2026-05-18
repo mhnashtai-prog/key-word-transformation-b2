@@ -1,0 +1,238 @@
+{
+  "metadata": {
+    "title": "Key Word Transformations – Grammar Rules 2026",
+    "level": "B2",
+    "format": "key-word-transformation",
+    "description": "143 key word transformation sentences organised by grammar category – Cambridge FCE Part 4",
+    "version": "1.0",
+    "source": "Rewriting_sentences_Grammar_Rules_2026.pdf"
+  },
+  "pages": [
+    {
+      "id": 1,
+      "label": "Conditionals & Wishes",
+      "grammar": "conditionals/wishes",
+      "items": [
+        { "n": 1, "sent": "George was late, so we didn't go to the cinema.", "key": "HAD", "pre": "If George", "blank": "hadn't been late", "post": "we would have gone to the cinema.", "hint": "third conditional", "grammar": "conditionals" },
+        { "n": 2, "sent": "Jim missed the game because he was ill.", "key": "HAD", "pre": "If Jim", "blank": "hadn't been ill", "post": "he wouldn't have missed the game.", "hint": "third conditional", "grammar": "conditionals" },
+        { "n": 3, "sent": "Tracy broke her arm because she was not cautious.", "key": "MORE", "pre": "If Tracy", "blank": "had been more cautious", "post": "she wouldn't have broken her arm.", "hint": "third conditional", "grammar": "conditionals" },
+        { "n": 4, "sent": "Due to his careless driving, there was a terrible accident.", "key": "CAREFULLY", "pre": "Had he", "blank": "driven more carefully", "post": "there wouldn't have been a terrible accident.", "hint": "inverted conditional + adverb", "grammar": "conditionals" },
+        { "n": 5, "sent": "The team lost the game because they played badly.", "key": "WOULD", "pre": "The team", "blank": "would have won", "post": "if they had played better.", "hint": "third conditional", "grammar": "conditionals" },
+        { "n": 6, "sent": "He always overcooks the rice!", "key": "NOT", "pre": "I wish he", "blank": "would not overcook", "post": "the rice.", "hint": "wish + would not", "grammar": "wishes" },
+        { "n": 7, "sent": "The bank is unpopular because they charge so much.", "key": "NOT", "pre": "They would be more popular if they", "blank": "did not charge", "post": "so much.", "hint": "second conditional", "grammar": "conditionals" },
+        { "n": 8, "sent": "What a pity I have to go to work today.", "key": "NOT", "pre": "I wish I", "blank": "did not have", "post": "to go to work today.", "hint": "wish + past simple", "grammar": "wishes" },
+        { "n": 9, "sent": "This train journey seems endless.", "key": "NOT", "pre": "I wish this journey", "blank": "were not", "post": "endless.", "hint": "wish + past subjunctive", "grammar": "wishes" },
+        { "n": 10, "sent": "In the snowy weather we don't go to school.", "key": "WOULD", "pre": "If the weather", "blank": "were not snowy", "post": "we would go to school.", "hint": "second conditional", "grammar": "conditionals" },
+        { "n": 11, "sent": "What a pity we all ate the same food.", "key": "ONLY", "pre": "If", "blank": "only we hadn't all eaten", "post": "the same food.", "hint": "if only + past perfect", "grammar": "wishes" },
+        { "n": 12, "sent": "I don't like being tall.", "key": "WISH", "pre": "I", "blank": "wish I were", "post": "shorter.", "hint": "wish + past subjunctive", "grammar": "wishes" },
+        { "n": 13, "sent": "Unless Peter repairs the roof, he is unlikely to find a buyer.", "key": "NOT", "pre": "Peter would not find a buyer", "blank": "if he did not", "post": "repair the roof.", "hint": "second conditional", "grammar": "conditionals" }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Passive Voice",
+      "grammar": "passive voice",
+      "items": [
+        { "n": 1, "sent": "People are eating most of the food at the party.", "key": "BY", "pre": "Most of the food", "blank": "is being eaten by people", "post": "at the party.", "hint": "present continuous passive", "grammar": "passive voice" },
+        { "n": 2, "sent": "They think that the reporter had stolen the document.", "key": "IS", "pre": "The reporter", "blank": "is thought to have stolen", "post": "the document.", "hint": "passive reporting verb", "grammar": "passive voice" },
+        { "n": 3, "sent": "They ought to have organised annual parties for migrants.", "key": "BY", "pre": "Annual parties", "blank": "ought to have been organised for migrants by", "post": "them.", "hint": "passive + modal perfect", "grammar": "passive voice" },
+        { "n": 4, "sent": "The workmen are fixing our pool.", "key": "FIXED", "pre": "We", "blank": "are having our pool fixed", "post": "by the workmen.", "hint": "have something done", "grammar": "passive voice" },
+        { "n": 5, "sent": "The porter didn't deliver our suitcase.", "key": "DELIVERED", "pre": "We", "blank": "didn't have our suitcase delivered", "post": "by the porter.", "hint": "have something done – negative", "grammar": "passive voice" },
+        { "n": 6, "sent": "She might have sent us the wrong parcel.", "key": "BY", "pre": "We", "blank": "might have been sent the wrong parcel by", "post": "her.", "hint": "passive + modal perfect", "grammar": "passive voice" },
+        { "n": 7, "sent": "Nobody knows anything about Sam.", "key": "ABOUT", "pre": "Nothing", "blank": "is known about", "post": "Sam.", "hint": "passive with nothing", "grammar": "passive voice" },
+        { "n": 8, "sent": "The manager made all the plans for the team.", "key": "MADE", "pre": "The team", "blank": "had all the plans made", "post": "for them by the manager.", "hint": "have something done", "grammar": "passive voice" },
+        { "n": 9, "sent": "They regularly make annual reports.", "key": "BY", "pre": "Annual reports", "blank": "are regularly made by", "post": "them.", "hint": "present simple passive", "grammar": "passive voice" },
+        { "n": 10, "sent": "Everyone knows that a foreign company will complete the project for us.", "key": "HAVE", "pre": "It is believed we", "blank": "will have the project completed by a foreign", "post": "company.", "hint": "have something done – future", "grammar": "passive voice" },
+        { "n": 11, "sent": "The firm is running computer courses for elderly people.", "key": "BY", "pre": "Computer courses", "blank": "are being run for elderly people by the firm", "post": ".", "hint": "present continuous passive", "grammar": "passive voice" },
+        { "n": 12, "sent": "They think the company is facing new challenges.", "key": "IS", "pre": "The company", "blank": "is thought to be facing", "post": "new challenges.", "hint": "passive reporting verb", "grammar": "passive voice" },
+        { "n": 13, "sent": "They are not doing enough to help the economy.", "key": "IS", "pre": "Not", "blank": "enough is being done", "post": "to help the economy.", "hint": "passive – enough", "grammar": "passive voice" }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Reported Speech",
+      "grammar": "reported speech",
+      "items": [
+        { "n": 1, "sent": "\"The child must repeat the test!\", said the nurse.", "key": "THAT", "pre": "The nurse said", "blank": "that the child had to repeat", "post": "the test.", "hint": "reported speech + backshift", "grammar": "reported speech" },
+        { "n": 2, "sent": "\"No-one should be blamed for the accident except the driver,\" said Mr Jones.", "key": "ACCUSED", "pre": "Mr Jones said that no-one", "blank": "should be accused of causing", "post": "the accident except the driver.", "hint": "passive reported speech", "grammar": "reported speech" },
+        { "n": 3, "sent": "\"Why don't we just apply for the licence instead?\" said Mr Lewis.", "key": "SUGGESTED", "pre": "Mr Lewis", "blank": "suggested that they should just apply", "post": "for the licence instead.", "hint": "suggest + that + should", "grammar": "reported speech" },
+        { "n": 4, "sent": "\"I don't think Mr Jones will consider my proposal.\"", "key": "WHETHER", "pre": "Louise didn't know", "blank": "whether Mr Jones would consider", "post": "her proposal.", "hint": "reported question + whether", "grammar": "reported speech" },
+        { "n": 5, "sent": "The teenager said she did not break the vase.", "key": "HAVING", "pre": "The teenager denied", "blank": "having broken", "post": "the vase.", "hint": "deny + having + past participle", "grammar": "reported speech" },
+        { "n": 6, "sent": "\"Where can I find this shop, please?\"", "key": "KNOW", "pre": "Do you", "blank": "know where I can find", "post": "this shop, please?", "hint": "indirect question", "grammar": "reported speech" },
+        { "n": 7, "sent": "\"All right, it's true. I was nervous,\" said Jack.", "key": "TO", "pre": "Jack admitted", "blank": "to being", "post": "nervous.", "hint": "admit to + gerund", "grammar": "reported speech" },
+        { "n": 8, "sent": "\"I am not sure if she is making the right decision.\"", "key": "WHETHER", "pre": "I am not sure", "blank": "whether she is making", "post": "the right decision.", "hint": "whether + clause", "grammar": "reported speech" },
+        { "n": 9, "sent": "\"Please don't share this secret with anyone.\"", "key": "REQUESTED", "pre": "I was", "blank": "requested not to share", "post": "this secret with anyone.", "hint": "passive request + not + infinitive", "grammar": "reported speech" },
+        { "n": 10, "sent": "\"I will tell your parents if you keep coming late,\" said Mrs Adams.", "key": "TO", "pre": "Mrs Adams threatened", "blank": "to tell her parents", "post": "if she kept coming late.", "hint": "threaten + to + infinitive", "grammar": "reported speech" },
+        { "n": 11, "sent": "\"It wasn't me who stole your money.\"", "key": "MY", "pre": "Peter denied", "blank": "it being his fault for stealing", "post": "money.", "hint": "deny + possessive + gerund", "grammar": "reported speech" },
+        { "n": 12, "sent": "\"No, sorry, I don't want to lend you my camera.\"", "key": "ME", "pre": "Mark refused", "blank": "to lend me", "post": "his camera.", "hint": "refuse + to + infinitive", "grammar": "reported speech" },
+        { "n": 13, "sent": "\"No matter what, you must always keep this door shut.\"", "key": "HAVE", "pre": "We", "blank": "have to keep", "post": "this door shut.", "hint": "have to + infinitive", "grammar": "reported speech" }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Modal Verbs",
+      "grammar": "modals",
+      "items": [
+        { "n": 1, "sent": "I am sure Alan took the parcel by mistake.", "key": "HAVE", "pre": "Alan", "blank": "must have taken", "post": "the parcel by mistake.", "hint": "must have + past participle (deduction)", "grammar": "modals" },
+        { "n": 2, "sent": "It is possible he left his keys in the office.", "key": "HAVE", "pre": "He", "blank": "may have left", "post": "his keys in the office.", "hint": "may have + past participle", "grammar": "modals" },
+        { "n": 3, "sent": "I am absolutely certain he didn't take your watch.", "key": "TAKEN", "pre": "He", "blank": "cannot have taken", "post": "your watch.", "hint": "cannot have + past participle", "grammar": "modals" },
+        { "n": 4, "sent": "It was not necessary to take your car.", "key": "TAKEN", "pre": "You", "blank": "needn't have taken", "post": "your car.", "hint": "needn't have + past participle", "grammar": "modals" },
+        { "n": 5, "sent": "It was a mistake to buy that car.", "key": "BOUGHT", "pre": "You", "blank": "shouldn't have bought", "post": "that car.", "hint": "shouldn't have + past participle", "grammar": "modals" },
+        { "n": 6, "sent": "Perhaps Alan didn't mean what he said.", "key": "MEANT", "pre": "Alan", "blank": "may not have meant", "post": "what he said.", "hint": "may not have + past participle", "grammar": "modals" },
+        { "n": 7, "sent": "We could never have known the truth.", "key": "IMPOSSIBLE", "pre": "It", "blank": "was impossible for us to have known", "post": "the truth.", "hint": "impossible + for + object + perfect infinitive", "grammar": "modals" },
+        { "n": 8, "sent": "It is likely that she wore the wrong dress.", "key": "MAY", "pre": "She", "blank": "may have worn", "post": "the wrong dress.", "hint": "may have + past participle", "grammar": "modals" },
+        { "n": 9, "sent": "Without your help, the outcome would be different.", "key": "HELP", "pre": "If you", "blank": "didn't help", "post": "the outcome would be different.", "hint": "second conditional", "grammar": "modals" },
+        { "n": 10, "sent": "If I were him, I would not leave now.", "key": "BETTER", "pre": "He", "blank": "had better not leave", "post": "now.", "hint": "had better + not + infinitive", "grammar": "modals" },
+        { "n": 11, "sent": "You mustn't use your phone in this school.", "key": "TO", "pre": "It is strictly", "blank": "forbidden to use", "post": "your phone in this school.", "hint": "it is forbidden to + infinitive", "grammar": "modals" },
+        { "n": 12, "sent": "You should have taken my advice.", "key": "OUGHT", "pre": "You", "blank": "ought to have taken", "post": "my advice.", "hint": "ought to have + past participle", "grammar": "modals" },
+        { "n": 13, "sent": "No one ever thought he would win the championship.", "key": "WAS", "pre": "He", "blank": "was never expected", "post": "to win the championship.", "hint": "passive + expected + infinitive", "grammar": "modals" }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Gerund & Infinitive",
+      "grammar": "gerund/infinitive",
+      "items": [
+        { "n": 1, "sent": "I usually find it difficult to sleep on the floor.", "key": "USED", "pre": "I am not", "blank": "used to sleeping", "post": "on the floor.", "hint": "be used to + gerund", "grammar": "gerund/infinitive" },
+        { "n": 2, "sent": "I am sorry that I did not take your advice very seriously.", "key": "HAVING", "pre": "I regret", "blank": "not having taken", "post": "your advice very seriously.", "hint": "regret + not having + past participle", "grammar": "gerund/infinitive" },
+        { "n": 3, "sent": "Trying to speak to you is a complete waste of time.", "key": "NO", "pre": "It is", "blank": "no use trying", "post": "to speak to you.", "hint": "no use + gerund", "grammar": "gerund/infinitive" },
+        { "n": 4, "sent": "It was difficult for me not to laugh at Wendy's letter.", "key": "HELP", "pre": "I couldn't", "blank": "help laughing", "post": "at Wendy's letter.", "hint": "can't help + gerund", "grammar": "gerund/infinitive" },
+        { "n": 5, "sent": "I don't think Derek remembered his appointment this morning.", "key": "APPEARS", "pre": "Derek", "blank": "appears to have forgotten", "post": "his appointment this morning.", "hint": "appear + to have + past participle", "grammar": "gerund/infinitive" },
+        { "n": 6, "sent": "Liz would not leave the shop without speaking to the manager.", "key": "ON", "pre": "Liz insisted", "blank": "on speaking", "post": "to the manager.", "hint": "insist on + gerund", "grammar": "gerund/infinitive" },
+        { "n": 7, "sent": "John forbade his children from leaving the house.", "key": "LET", "pre": "John did not", "blank": "let his children leave", "post": "the house.", "hint": "let + object + infinitive", "grammar": "gerund/infinitive" },
+        { "n": 8, "sent": "Williams did not look as if he had noticed the problem.", "key": "TAKEN", "pre": "Williams didn't seem to have", "blank": "taken any notice of", "post": "the problem.", "hint": "take notice of", "grammar": "gerund/infinitive" },
+        { "n": 9, "sent": "I shouldn't have moved to this part of the country.", "key": "MOVING", "pre": "I regret", "blank": "moving", "post": "to this part of the country.", "hint": "regret + gerund", "grammar": "gerund/infinitive" },
+        { "n": 10, "sent": "Lucy found it too expensive to pay her monthly rent.", "key": "AFFORD", "pre": "Lucy couldn't", "blank": "afford to pay", "post": "her monthly rent.", "hint": "afford + to + infinitive", "grammar": "gerund/infinitive" },
+        { "n": 11, "sent": "I don't want you to leave the light on.", "key": "MIND", "pre": "Would you", "blank": "mind not leaving", "post": "the light on?", "hint": "mind + not + gerund", "grammar": "gerund/infinitive" },
+        { "n": 12, "sent": "Sue was not able to finish her work on time.", "key": "DID", "pre": "Sue", "blank": "did not manage to finish", "post": "her work on time.", "hint": "manage + to + infinitive", "grammar": "gerund/infinitive" },
+        { "n": 13, "sent": "I really hate listening to loud music.", "key": "STAND", "pre": "I cannot", "blank": "stand listening to", "post": "loud music.", "hint": "can't stand + gerund", "grammar": "gerund/infinitive" }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Tenses",
+      "grammar": "tenses",
+      "items": [
+        { "n": 1, "sent": "First she checked the price, and then she bought it.", "key": "BUYING", "pre": "Before", "blank": "buying it", "post": "she checked the price.", "hint": "before + gerund", "grammar": "tenses" },
+        { "n": 2, "sent": "It was their first trip to Africa.", "key": "TIME", "pre": "It was the first", "blank": "time they had been", "post": "to Africa.", "hint": "first time + past perfect", "grammar": "tenses" },
+        { "n": 3, "sent": "We hadn't spoken to each other for a long time.", "key": "SINCE", "pre": "It had been a long time", "blank": "since we had spoken to", "post": "each other.", "hint": "since + past perfect", "grammar": "tenses" },
+        { "n": 4, "sent": "They are expected to finish this road next week.", "key": "WILL", "pre": "By next week they", "blank": "will have finished", "post": "this road.", "hint": "future perfect", "grammar": "tenses" },
+        { "n": 5, "sent": "The arrival time of his flight is 8.00.", "key": "WILL", "pre": "By 8.00 he", "blank": "will have arrived", "post": ".", "hint": "future perfect", "grammar": "tenses" },
+        { "n": 6, "sent": "Is this your car?", "key": "TO", "pre": "Is this car", "blank": "belonging to", "post": "you?", "hint": "belong to", "grammar": "tenses" },
+        { "n": 7, "sent": "The girl had never had such a bad party.", "key": "FAR", "pre": "It was by far", "blank": "the worst party she had ever", "post": "had.", "hint": "by far + superlative + ever", "grammar": "tenses" },
+        { "n": 8, "sent": "Patrick hadn't heard from his uncle for over five years.", "key": "MORE", "pre": "It was more", "blank": "than five years since he had heard", "post": "from his uncle.", "hint": "more than + time + since", "grammar": "tenses" },
+        { "n": 9, "sent": "Mrs Berg met her neighbours in 1992.", "key": "SINCE", "pre": "Mrs Berg has known her neighbours", "blank": "since", "post": "1992.", "hint": "present perfect + since", "grammar": "tenses" },
+        { "n": 10, "sent": "He had never met such a kind person.", "key": "EVER", "pre": "Mrs Dudley was the kindest person he had", "blank": "ever met", "post": ".", "hint": "superlative + ever + past perfect", "grammar": "tenses" },
+        { "n": 11, "sent": "I promise the dinner will be ready before then.", "key": "BEEN", "pre": "I promise the dinner will", "blank": "have been prepared before", "post": "then.", "hint": "future perfect passive", "grammar": "tenses" },
+        { "n": 12, "sent": "What is your plan for next Wednesday at 11?", "key": "BE", "pre": "What will you", "blank": "be doing", "post": "next Wednesday at 11?", "hint": "future continuous", "grammar": "tenses" },
+        { "n": 13, "sent": "We purchased this computer 10 days ago.", "key": "FOR", "pre": "We have", "blank": "had this computer for", "post": "10 days.", "hint": "present perfect + for", "grammar": "tenses" }
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Comparatives",
+      "grammar": "comparison",
+      "items": [
+        { "n": 1, "sent": "The old man drank the most.", "key": "AS", "pre": "No one drank", "blank": "as much as", "post": "the old man.", "hint": "not as much as", "grammar": "comparison" },
+        { "n": 2, "sent": "Your phone looks different from mine.", "key": "SAME", "pre": "Your phone does not look the", "blank": "same as", "post": "mine.", "hint": "not the same as", "grammar": "comparison" },
+        { "n": 3, "sent": "If you study more, you will find it easier.", "key": "EASIER", "pre": "The more you study, the", "blank": "easier", "post": "it will be.", "hint": "the more … the easier", "grammar": "comparison" },
+        { "n": 4, "sent": "It will be better for us to have more experience.", "key": "EXPERIENCED", "pre": "The more", "blank": "experienced we are", "post": "the better it will be.", "hint": "the more experienced", "grammar": "comparison" },
+        { "n": 5, "sent": "He is the worst painter I have ever seen.", "key": "AS", "pre": "No one is", "blank": "as bad a painter as", "post": "he is.", "hint": "not as … as", "grammar": "comparison" },
+        { "n": 6, "sent": "I thought we had to walk longer than last time.", "key": "FAR", "pre": "We had to walk", "blank": "farther than", "post": "last time.", "hint": "farther than", "grammar": "comparison" },
+        { "n": 7, "sent": "Sam is a better writer than Sue.", "key": "GOOD", "pre": "Sue is not", "blank": "as good a writer as", "post": "Sam.", "hint": "not as good as", "grammar": "comparison" },
+        { "n": 8, "sent": "Your shirt does not look the same as mine.", "key": "FROM", "pre": "Your shirt looks different", "blank": "from", "post": "mine.", "hint": "different from", "grammar": "comparison" },
+        { "n": 9, "sent": "He is the best tennis player in my class.", "key": "AS", "pre": "No one in my class is", "blank": "as good at tennis as", "post": "he is.", "hint": "not as good as", "grammar": "comparison" },
+        { "n": 10, "sent": "He is the worst driver ever.", "key": "BAD", "pre": "I have never seen", "blank": "such a bad", "post": "driver.", "hint": "such a + adjective + noun", "grammar": "comparison" },
+        { "n": 11, "sent": "She hasn't written to us for ages.", "key": "SINCE", "pre": "It has been ages", "blank": "since she wrote", "post": "to us.", "hint": "it has been + time + since", "grammar": "comparison" },
+        { "n": 12, "sent": "When did you buy your coat?", "key": "LONG", "pre": "How", "blank": "long have you had", "post": "your coat?", "hint": "how long have you had", "grammar": "comparison" },
+        { "n": 13, "sent": "I have never read such a boring book.", "key": "FAR", "pre": "This is by far", "blank": "the most boring book I have ever", "post": "read.", "hint": "by far + superlative + ever", "grammar": "comparison" }
+      ]
+    },
+    {
+      "id": 8,
+      "label": "Linking Words",
+      "grammar": "linking words",
+      "items": [
+        { "n": 1, "sent": "Mr Jones has just purchased a new property and a new car.", "key": "ALSO", "pre": "Not only has Mr Jones purchased a new property, he", "blank": "has also bought", "post": "a new car.", "hint": "not only … also", "grammar": "linking words" },
+        { "n": 2, "sent": "He walked quietly so that he wouldn't wake up his wife.", "key": "TO", "pre": "In order", "blank": "not to wake up his wife", "post": "he walked quietly.", "hint": "in order not to + infinitive", "grammar": "linking words" },
+        { "n": 3, "sent": "Even though he was late, he managed to catch the bus.", "key": "OF", "pre": "In spite", "blank": "of being late", "post": "he managed to catch the bus.", "hint": "in spite of + gerund", "grammar": "linking words" },
+        { "n": 4, "sent": "The new house is inexpensive and modern.", "key": "TO", "pre": "In addition", "blank": "to being inexpensive", "post": "the new house is modern.", "hint": "in addition to + gerund", "grammar": "linking words" },
+        { "n": 5, "sent": "I kept the photo in the drawer because I didn't want to lose it.", "key": "AVOID", "pre": "So", "blank": "as to avoid losing", "post": "the photo, I kept it in the drawer.", "hint": "so as to avoid + gerund", "grammar": "linking words" },
+        { "n": 6, "sent": "As she was late, she forgot to turn the alarm on.", "key": "TO", "pre": "Owing", "blank": "to being late", "post": "she forgot to turn the alarm on.", "hint": "owing to + gerund", "grammar": "linking words" },
+        { "n": 7, "sent": "She was sacked from the company because she was rude.", "key": "RUDENESS", "pre": "She was sacked from the company", "blank": "because of her rudeness", "post": ".", "hint": "because of + noun", "grammar": "linking words" },
+        { "n": 8, "sent": "The plant died as it did not catch enough sun.", "key": "RESULT", "pre": "The plant died as a", "blank": "result of not catching", "post": "enough sun.", "hint": "as a result of + gerund", "grammar": "linking words" },
+        { "n": 9, "sent": "Because Beatrice wanted to study fashion, she enrolled on a modelling course.", "key": "INTENTION", "pre": "With the", "blank": "intention of studying", "post": "fashion, Beatrice enrolled on a modelling course.", "hint": "with the intention of + gerund", "grammar": "linking words" },
+        { "n": 10, "sent": "I don't think future towns will offer more green spaces.", "key": "UNLIKELY", "pre": "Future towns are", "blank": "unlikely to offer", "post": "more green spaces.", "hint": "unlikely to + infinitive", "grammar": "linking words" },
+        { "n": 11, "sent": "Pat was the only one who usually wore a hat.", "key": "FROM", "pre": "Apart", "blank": "from Pat", "post": "everyone else usually wore a hat.", "hint": "apart from", "grammar": "linking words" },
+        { "n": 12, "sent": "The project will be a success as long as Tom is the manager.", "key": "PROVIDED", "pre": "The project will be a success", "blank": "provided that Tom is", "post": "in charge.", "hint": "provided that", "grammar": "linking words" },
+        { "n": 13, "sent": "Without your help, I would have failed the exam.", "key": "IT", "pre": "I would have failed the exam if", "blank": "it hadn't been for", "post": "your help.", "hint": "if it hadn't been for", "grammar": "linking words" }
+      ]
+    },
+    {
+      "id": 9,
+      "label": "Fixed Expressions",
+      "grammar": "fixed expressions",
+      "items": [
+        { "n": 1, "sent": "You must show your card as you enter the building.", "key": "REQUIRED", "pre": "You are", "blank": "required to show", "post": "your card as you enter the building.", "hint": "be required to + infinitive", "grammar": "fixed expressions" },
+        { "n": 2, "sent": "On arriving at an airport, I go straight to the check-in desk.", "key": "SOON", "pre": "I go straight to the check-in desk as", "blank": "soon as I arrive", "post": "at an airport.", "hint": "as soon as", "grammar": "fixed expressions" },
+        { "n": 3, "sent": "Tim was not proud of his behaviour.", "key": "ASHAMED", "pre": "Tim was", "blank": "ashamed of", "post": "how he had behaved.", "hint": "ashamed of", "grammar": "fixed expressions" },
+        { "n": 4, "sent": "He knows a lot about cars.", "key": "VERY", "pre": "He is", "blank": "very knowledgeable", "post": "about cars.", "hint": "knowledgeable about", "grammar": "fixed expressions" },
+        { "n": 5, "sent": "Sam doesn't enjoy being with lots of people.", "key": "OF", "pre": "Sam is not", "blank": "fond of spending", "post": "time with lots of people.", "hint": "fond of + gerund", "grammar": "fixed expressions" },
+        { "n": 6, "sent": "I want to thank you for your help.", "key": "ENOUGH", "pre": "I cannot thank", "blank": "you enough for", "post": "your help.", "hint": "cannot thank enough", "grammar": "fixed expressions" },
+        { "n": 7, "sent": "I didn't know about the leak in the bathroom.", "key": "OF", "pre": "I wasn't", "blank": "aware of", "post": "the leak in the bathroom.", "hint": "aware of", "grammar": "fixed expressions" },
+        { "n": 8, "sent": "My girlfriend and I share many interests.", "key": "COMMON", "pre": "My girlfriend and I have", "blank": "a lot in common", "post": ".", "hint": "have in common", "grammar": "fixed expressions" },
+        { "n": 9, "sent": "The guide described the area in detail.", "key": "PROVIDED", "pre": "A full description", "blank": "was provided of the area", "post": "by the guide.", "hint": "passive + provided", "grammar": "fixed expressions" },
+        { "n": 10, "sent": "When he decided to marry Martha, everyone was surprised.", "key": "DECISION", "pre": "His", "blank": "decision to marry", "post": "Martha took everyone by surprise.", "hint": "decision to + infinitive", "grammar": "fixed expressions" },
+        { "n": 11, "sent": "The player did not seem to be anxious during the game.", "key": "MUCH", "pre": "There was not", "blank": "much anxiety shown", "post": "by the player during the game.", "hint": "not much + noun", "grammar": "fixed expressions" },
+        { "n": 12, "sent": "My dreams are not quite the same as yours.", "key": "FROM", "pre": "Your dreams", "blank": "differ from", "post": "mine.", "hint": "differ from", "grammar": "fixed expressions" },
+        { "n": 13, "sent": "I am so sorry for not writing sooner.", "key": "ACCEPT", "pre": "Please", "blank": "accept my apologies for", "post": "not writing sooner.", "hint": "accept apologies for", "grammar": "fixed expressions" }
+      ]
+    },
+    {
+      "id": 10,
+      "label": "Inversion",
+      "grammar": "inversion",
+      "items": [
+        { "n": 1, "sent": "She doesn't visit them as often as she would like to.", "key": "SHE", "pre": "Seldom", "blank": "does she visit them", "post": "as much as she would like to.", "hint": "seldom + inverted auxiliary", "grammar": "inversion" },
+        { "n": 2, "sent": "They will rarely hear such beautiful music.", "key": "THEY", "pre": "Rarely", "blank": "will they hear", "post": "such beautiful music.", "hint": "rarely + inverted auxiliary", "grammar": "inversion" },
+        { "n": 3, "sent": "I was able to understand then why the tragedy had happened.", "key": "THEN", "pre": "Only", "blank": "then was I able to understand", "post": "why the tragedy had happened.", "hint": "only then + inversion", "grammar": "inversion" },
+        { "n": 4, "sent": "He loves chocolate and sweets, and he also enjoys fast food.", "key": "ONLY", "pre": "Not only", "blank": "does he love", "post": "chocolate and sweets, but he also enjoys fast food.", "hint": "not only + inversion", "grammar": "inversion" },
+        { "n": 5, "sent": "No sooner had we arrived home than the police rang the doorbell.", "key": "THAN", "pre": "No sooner", "blank": "had we arrived home", "post": "the police rang the doorbell.", "hint": "no sooner … than", "grammar": "inversion" },
+        { "n": 6, "sent": "The moment I left the bus, it crashed into the back of a car.", "key": "OFF", "pre": "Scarcely", "blank": "had I got off", "post": "the bus when it crashed into the back of a car.", "hint": "scarcely + inversion", "grammar": "inversion" },
+        { "n": 7, "sent": "It was not till later that she thought about the situation.", "key": "LATER", "pre": "Only", "blank": "later did she think", "post": "about the situation.", "hint": "only later + inversion", "grammar": "inversion" },
+        { "n": 8, "sent": "This is the only place where you can find such nice people.", "key": "CAN", "pre": "Nowhere else", "blank": "can you find", "post": "such nice people.", "hint": "nowhere else + inversion", "grammar": "inversion" },
+        { "n": 9, "sent": "He knew almost nothing about his close relatives.", "key": "HE", "pre": "Little", "blank": "did he know", "post": "about his close relatives.", "hint": "little + inversion", "grammar": "inversion" },
+        { "n": 10, "sent": "This was the only way that John was able to cover his expenses.", "key": "MANAGE", "pre": "Only in this way", "blank": "did John manage to", "post": "cover his expenses.", "hint": "only in this way + inversion", "grammar": "inversion" },
+        { "n": 11, "sent": "You should not use this without asking me first.", "key": "NO", "pre": "Under no circumstances", "blank": "should you use", "post": "this without asking me first.", "hint": "under no circumstances + inversion", "grammar": "inversion" },
+        { "n": 12, "sent": "Make sure this gate is always kept shut.", "key": "ACCOUNT", "pre": "On", "blank": "no account leave", "post": "this gate open.", "hint": "on no account + inversion", "grammar": "inversion" },
+        { "n": 13, "sent": "If he ever wins the election, his popularity will soar.", "key": "WERE", "pre": "His popularity will soar,", "blank": "were he to", "post": "win the election.", "hint": "were he to + infinitive", "grammar": "inversion" }
+      ]
+    },
+    {
+      "id": 11,
+      "label": "Phrasal Verbs",
+      "grammar": "phrasal verbs",
+      "items": [
+        { "n": 1, "sent": "He looks just like his uncle.", "key": "AFTER", "pre": "He", "blank": "takes after", "post": "his uncle physically.", "hint": "take after = resemble", "grammar": "phrasal verbs" },
+        { "n": 2, "sent": "They started a new company last year.", "key": "UP", "pre": "A new company was", "blank": "set up", "post": "last year.", "hint": "set up = start", "grammar": "phrasal verbs" },
+        { "n": 3, "sent": "We found your old photo quite accidentally.", "key": "CAME", "pre": "We", "blank": "came across", "post": "your old photo quite accidentally.", "hint": "come across = find accidentally", "grammar": "phrasal verbs" },
+        { "n": 4, "sent": "The bomb exploded early this morning.", "key": "OFF", "pre": "The bomb", "blank": "went off", "post": "early this morning.", "hint": "go off = explode", "grammar": "phrasal verbs" },
+        { "n": 5, "sent": "Why don't you start doing a sport?", "key": "TAKING", "pre": "Have you thought about", "blank": "taking up", "post": "a sport?", "hint": "take up = start a hobby", "grammar": "phrasal verbs" },
+        { "n": 6, "sent": "His parents raised him very strictly.", "key": "UP", "pre": "His parents brought", "blank": "him up", "post": "very strictly.", "hint": "bring up = raise", "grammar": "phrasal verbs" },
+        { "n": 7, "sent": "They've cancelled the wedding.", "key": "OFF", "pre": "They have called", "blank": "off", "post": "the wedding.", "hint": "call off = cancel", "grammar": "phrasal verbs" },
+        { "n": 8, "sent": "I've got to reduce the amount of sweets I eat.", "key": "DOWN", "pre": "I must cut", "blank": "down on", "post": "the number of sweets I eat.", "hint": "cut down on = reduce", "grammar": "phrasal verbs" },
+        { "n": 9, "sent": "My host family will let you stay with us.", "key": "UP", "pre": "My host family will put", "blank": "you up", "post": ".", "hint": "put up = accommodate", "grammar": "phrasal verbs" },
+        { "n": 10, "sent": "Pete Johnson continued to get up at 6:30 even after he retired.", "key": "CARRIED", "pre": "Pete Johnson", "blank": "carried on", "post": "getting up at 6:30 even after he retired.", "hint": "carry on = continue", "grammar": "phrasal verbs" },
+        { "n": 11, "sent": "They discussed the situation but nobody had a solution.", "key": "CAME", "pre": "They discussed the situation but nobody", "blank": "came up with", "post": "a solution.", "hint": "come up with = produce", "grammar": "phrasal verbs" },
+        { "n": 12, "sent": "It was difficult to forget the death of his old aunt.", "key": "OVER", "pre": "He was", "blank": "finding it hard to get over", "post": "the death of his old aunt.", "hint": "get over = recover from", "grammar": "phrasal verbs" },
+        { "n": 13, "sent": "You are just too fast for me.", "key": "UP", "pre": "I", "blank": "can't keep up with", "post": "you.", "hint": "keep up with = match pace", "grammar": "phrasal verbs" }
+      ]
+    }
+  ]
+}
+
+Done
+
+You are out of free messages until 3:40 AM
+Upgrade
+
