@@ -5,136 +5,160 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B2 Key Word Transformations</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;600;700;800&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;
-  --border:rgba(255,255,255,.08);--text:#e8e8f0;
-  --muted:rgba(232,232,240,.5);--faint:rgba(232,232,240,.2);
-  --blue:#60a5fa;--blue-dim:rgba(96,165,250,.15);
-  --green:#4ade80;--red:#f87171;--gold:#d4a853;
-  --amber:#fbbf24;
+  --bg:#080b12;--surface:#0e1320;--card:#131928;
+  --border:rgba(255,255,255,.07);--text:#dde4f0;
+  --muted:rgba(221,228,240,.45);--faint:rgba(221,228,240,.18);
+  --blue:#4f8ef7;--blue-dim:rgba(79,142,247,.14);
+  --green:#3dd68c;--red:#f06c6c;--gold:#e0a84b;
+  --amber:#f7c948;--purple:#a78bfa;--purple-dim:rgba(167,139,250,.14);
+  --leaf:#58BB43;--leaf-bright:#58BB43;--leaf-dim:rgba(88,187,67,.11);--leaf-glow:rgba(88,187,67,.28);
+  --font-head:'Outfit',sans-serif;--font-mono:'DM Mono',monospace;
 }
-html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;overflow:hidden}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-family:var(--font-head);overflow:hidden}
 
-/* HEADER - fixed */
-#header{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(10,10,15,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:12px}
-.brand{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold);white-space:nowrap}
+/* ── TOGGLE ── */
+#modeBar{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;background:rgba(8,11,18,.98);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:12px}
+.brand{font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--gold)}
 .brand span{color:var(--muted);font-weight:400}
-.hstats{display:flex;gap:16px;align-items:center;flex-shrink:0}
-.hstat{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+
+.toggle-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:99px;padding:4px 6px 4px 10px}
+.toggle-label{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--muted);transition:color .2s}
+.toggle-label.active-label{color:var(--text)}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;border-radius:99px;cursor:pointer;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);transition:all .25s}
+.slider::before{content:'';position:absolute;height:18px;width:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.toggle input:checked + .slider{background:var(--leaf-dim);border-color:rgba(88,187,67,.45)}
+.toggle input:checked + .slider::before{transform:translateX(20px);background:var(--leaf-bright)}
+
+.hstats{display:flex;gap:14px;align-items:center;flex-shrink:0}
+.hstat{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;font-family:var(--font-mono)}
 .hstat strong{color:var(--text)}
 .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 .dg{background:var(--green)}.dr{background:var(--red)}
 
-/* TABS - fixed below header */
-#tabs{position:fixed;top:52px;left:0;right:0;z-index:99;background:rgba(13,13,26,.97);border-bottom:1px solid var(--border);display:flex;gap:6px;padding:8px 16px;overflow-x:auto;scrollbar-width:none}
+/* ── TABS ── */
+#tabs{position:fixed;top:52px;left:0;right:0;z-index:99;background:rgba(8,11,18,.97);border-bottom:1px solid var(--border);display:flex;gap:5px;padding:7px 14px;overflow-x:auto;scrollbar-width:none}
 #tabs::-webkit-scrollbar{display:none}
-.tab{font-size:11px;font-weight:600;padding:4px 12px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s}
-.tab:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
-.tab.active{background:var(--blue-dim);border-color:rgba(96,165,250,.4);color:var(--blue)}
-.tab.tok::after,.tab.tmix::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;margin-left:4px;vertical-align:middle}
+.tab{font-size:11px;font-weight:700;padding:4px 13px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.03em;font-family:var(--font-head)}
+.tab:hover{border-color:rgba(255,255,255,.18);color:var(--text)}
+.tab.active{background:var(--blue-dim);border-color:rgba(79,142,247,.4);color:var(--blue)}
+.tab.grammar-active{background:var(--leaf-dim);border-color:rgba(88,187,67,.4);color:var(--leaf-bright)}
+.tab.tok::after,.tab.tmix::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;margin-left:5px;vertical-align:middle}
 .tab.tok::after{background:var(--green)}.tab.tmix::after{background:var(--amber)}
 
-/* MAIN SLIDE AREA */
-#slide{position:fixed;top:100px;left:0;right:0;bottom:80px;display:flex;align-items:center;justify-content:center;padding:20px 40px}
+/* ── MAIN SLIDE ── */
+#slide{position:fixed;top:100px;left:0;right:0;bottom:80px;display:flex;align-items:center;justify-content:center;padding:20px 40px;overflow-y:auto}
+.slide-inner{width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.q-counter{font-size:13px;color:var(--muted);letter-spacing:.07em;font-family:var(--font-mono)}
 
-.slide-inner{width:100%;max-width:1200px;display:flex;flex-direction:column;align-items:center;gap:12px}
+/* MODE BADGE */
+.mode-badge{font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 9px;border-radius:99px;border:1px solid;display:inline-block;margin-left:8px;vertical-align:middle}
+.mode-badge.seq{color:var(--blue);border-color:rgba(79,142,247,.35);background:var(--blue-dim)}
+.mode-badge.gram{color:var(--purple);border-color:rgba(167,139,250,.35);background:var(--purple-dim)}
 
-.q-counter{font-size:15px;color:var(--muted);letter-spacing:.06em}
-
-/* THE SENTENCE BOX */
-.sent-box{width:100%;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:32px 60px 24px;text-align:center}
-.orig-sent{font-size:28px;color:var(--muted);line-height:1.55;margin-bottom:18px;font-weight:400}
-.kw-big{font-size:48px;font-weight:700;color:var(--blue);letter-spacing:.06em;line-height:1;margin-bottom:12px}
-.gram-tag{font-size:14px;color:var(--faint);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:5px 12px;display:inline-block}
+/* SENTENCE BOX */
+.sent-box{width:100%;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:30px 56px 22px;text-align:center;position:relative;overflow:hidden}
+.sent-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,.07),transparent 70%);pointer-events:none;transition:background .4s}
+body.gram .sent-box::before{background:radial-gradient(circle,rgba(88,187,67,.09),transparent 70%)}
+body.gram #ansInput:focus{border-bottom-color:var(--leaf-bright)}
+.orig-sent{font-size:24px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:400}
+.kw-big{font-size:52px;font-weight:800;color:var(--blue);letter-spacing:.05em;line-height:1;margin-bottom:10px;transition:color .3s}
+.kw-big.gram-mode{color:var(--leaf-bright);text-shadow:0 0 40px var(--leaf-glow),0 0 80px rgba(76,175,125,.1)}
+.gram-tag{font-size:12px;color:var(--faint);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:4px 11px;display:inline-block;font-family:var(--font-mono)}
 
 /* ANSWER ROW */
 .ans-row{width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
-.ans-pre,.ans-suf{font-size:28px;color:var(--muted);max-width:300px;text-align:center}
-#ansInput{min-width:260px;flex:1;background:transparent;border:none;border-bottom:3px solid var(--faint);padding:10px 6px;font-size:28px;color:var(--text);outline:none;text-align:center;transition:border-color .2s;font-family:inherit}
-#ansInput::placeholder{color:var(--faint);font-style:italic;font-size:22px}
+.ans-pre,.ans-suf{font-size:24px;color:var(--muted);max-width:280px;text-align:center}
+#ansInput{min-width:240px;flex:1;background:transparent;border:none;border-bottom:2px solid var(--faint);padding:10px 6px;font-size:24px;color:var(--text);outline:none;text-align:center;transition:border-color .2s;font-family:var(--font-head)}
+#ansInput::placeholder{color:var(--faint);font-style:italic;font-size:19px}
 #ansInput:focus{border-bottom-color:var(--blue)}
 #ansInput.ok{border-bottom-color:var(--green);color:var(--green)}
 #ansInput.err{border-bottom-color:var(--red);color:var(--red)}
 #ansInput.rev{border-bottom-color:var(--gold);color:var(--gold)}
-#checkBtn{font-size:15px;font-weight:600;padding:12px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--text);cursor:pointer;white-space:nowrap;transition:all .15s}
+#checkBtn{font-size:14px;font-weight:700;padding:12px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--text);cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.04em;font-family:var(--font-head)}
 #checkBtn:hover{background:rgba(255,255,255,.06)}
-#checkBtn:disabled{opacity:.3;cursor:default}
+#checkBtn:disabled{opacity:.28;cursor:default}
 
-/* FEEDBACK */
-#feedback{font-size:20px;color:var(--muted);text-align:center;min-height:28px;line-height:1.5}
+#feedback{font-size:18px;color:var(--muted);text-align:center;min-height:26px;line-height:1.5;font-weight:600}
 #feedback.ok{color:var(--green)}
 #feedback.err{color:var(--red)}
 #feedback.rev{color:var(--gold)}
-#hintText{font-size:16px;color:var(--faint);text-align:center;min-height:22px}
+#hintText{font-size:14px;color:var(--faint);text-align:center;min-height:20px;font-family:var(--font-mono)}
 
-/* BOTTOM NAV - fixed */
-#nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(10,10,15,.97);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;padding:0 16px}
-.nav-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+/* ── BOTTOM NAV ── */
+#nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(8,11,18,.98);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 14px}
+.nav-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
 .nav-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
-.nav-btn:disabled{opacity:.2;cursor:default}
-#dotsWrap{display:flex;gap:5px;align-items:center;overflow-x:auto;max-width:480px;padding:4px;scrollbar-width:none}
+.nav-btn:disabled{opacity:.18;cursor:default}
+#dotsWrap{display:flex;gap:5px;align-items:center;overflow-x:auto;max-width:500px;padding:4px;scrollbar-width:none}
 #dotsWrap::-webkit-scrollbar{display:none}
-.dn{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;cursor:pointer;flex-shrink:0;transition:all .15s}
+.dn{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:transparent;cursor:pointer;flex-shrink:0;transition:all .15s}
 .dn.cur{width:22px;border-radius:99px;background:var(--blue);border-color:var(--blue)}
+.dn.cur.gram{background:var(--leaf-bright);border-color:var(--leaf-bright)}
 .dn.dok{background:var(--green);border-color:var(--green)}
 .dn.derr{background:var(--red);border-color:var(--red)}
 .dn.drev{background:var(--gold);border-color:var(--gold)}
 
-/* SLIDE ACTIONS */
-#actions{position:fixed;bottom:76px;right:16px;display:flex;gap:6px}
-.tiny{font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--faint);cursor:pointer;transition:all .15s}
-.tiny:hover{color:var(--muted);border-color:rgba(255,255,255,.2)}
+#actions{position:fixed;bottom:76px;right:14px;display:flex;gap:6px}
+.tiny{font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--faint);cursor:pointer;transition:all .15s;font-family:var(--font-head)}
+.tiny:hover{color:var(--muted);border-color:rgba(255,255,255,.18)}
 
-/* ── MOBILE (iPhone and similar) ── */
+/* ── MOBILE ── */
 @media(max-width:600px){
-  html,body{overflow:hidden;height:100%;height:100dvh}
-
-  #header{height:48px;padding:0 14px}
-  .brand{font-size:12px}
-  .hstat{font-size:11px}
-
-  #tabs{top:48px;padding:6px 10px;gap:5px}
+  html,body{overflow:hidden;height:100dvh}
+  #modeBar{height:48px;padding:0 12px}
+  .brand{font-size:11px}
+  .hstat{font-size:10px}
+  .toggle-wrap{padding:3px 5px 3px 8px;gap:7px}
+  .toggle-label{font-size:10px}
+  .toggle{width:38px;height:20px}
+  .slider::before{height:14px;width:14px;left:2px;top:2px}
+  .toggle input:checked + .slider::before{transform:translateX(18px)}
+  #tabs{top:48px;padding:6px 10px;gap:4px}
   .tab{font-size:10px;padding:3px 10px}
-
-  #slide{top:92px;bottom:70px;padding:10px 14px;align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
-
+  #slide{top:90px;bottom:68px;padding:10px 12px;align-items:flex-start}
   .slide-inner{gap:10px;padding-bottom:8px}
-
-  .q-counter{font-size:12px}
-
-  .sent-box{border-radius:16px;padding:20px 18px 16px}
-  .orig-sent{font-size:16px;margin-bottom:12px;line-height:1.5}
-  .kw-big{font-size:36px;margin-bottom:8px;letter-spacing:.04em}
-  .gram-tag{font-size:11px;padding:3px 8px}
-
+  .q-counter{font-size:11px}
+  .sent-box{border-radius:14px;padding:18px 16px 14px}
+  .orig-sent{font-size:15px;margin-bottom:10px}
+  .kw-big{font-size:36px;margin-bottom:8px}
+  .gram-tag{font-size:10px;padding:3px 8px}
   .ans-row{flex-direction:column;gap:8px;align-items:stretch}
-  .ans-pre,.ans-suf{font-size:15px;max-width:100%;text-align:center}
-  #ansInput{font-size:18px;min-width:unset;width:100%;padding:10px 8px;border-bottom:2px solid var(--faint)}
-  #ansInput::placeholder{font-size:15px}
-  #checkBtn{font-size:14px;padding:12px 0;width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.15)}
-
-  #feedback{font-size:15px;min-height:20px}
-  #hintText{font-size:12px;min-height:16px}
-
-  #nav{height:70px;gap:8px;padding:0 10px}
-  .nav-btn{width:40px;height:40px;font-size:20px}
-  #dotsWrap{max-width:calc(100vw - 120px);gap:4px}
+  .ans-pre,.ans-suf{font-size:14px;max-width:100%}
+  #ansInput{font-size:17px;min-width:unset;width:100%;padding:10px 6px;border-bottom:2px solid var(--faint)}
+  #ansInput::placeholder{font-size:14px}
+  #checkBtn{font-size:13px;padding:12px 0;width:100%;border-radius:10px}
+  #feedback{font-size:14px}
+  #hintText{font-size:11px}
+  #nav{height:68px;gap:7px;padding:0 10px}
+  .nav-btn{width:38px;height:38px}
+  #dotsWrap{max-width:calc(100vw - 110px);gap:4px}
   .dn{width:7px;height:7px}
-  .dn.cur{width:18px}
-
-  #actions{bottom:74px;right:10px;gap:5px}
+  .dn.cur{width:16px}
+  #actions{bottom:72px;right:10px}
   .tiny{font-size:9px;padding:3px 8px}
 }
 </style>
 </head>
 <body>
 
-<div id="header">
+<div id="modeBar">
   <div class="brand">B2 Part 4 <span>Key Word Transformations</span></div>
+  <div class="toggle-wrap">
+    <span class="toggle-label active-label" id="lblSeq">SEQUENTIAL</span>
+    <label class="toggle">
+      <input type="checkbox" id="modeToggle">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label" id="lblGram">GRAMMAR</span>
+  </div>
   <div class="hstats">
-    <div class="hstat"><span class="dot dg"></span><strong id="gOk">0</strong> correct</div>
-    <div class="hstat"><span class="dot dr"></span><strong id="gErr">0</strong> wrong</div>
+    <div class="hstat"><span class="dot dg"></span><strong id="gOk">0</strong>&nbsp;correct</div>
+    <div class="hstat"><span class="dot dr"></span><strong id="gErr">0</strong>&nbsp;wrong</div>
     <div class="hstat" id="gTot">0 / 160</div>
   </div>
 </div>
@@ -172,7 +196,10 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-fam
 </div>
 
 <script>
-const PAGES=[
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const SEQ_PAGES=[
   {label:"1–20",range:[1,20],items:[
     {n:1,sent:"You've broken my radio, Frank! Said Jane.",key:"ACCUSED",pre:"Jane",blank:"accused Frank of breaking",post:"her radio.",hint:"accuse + object + of + gerund",grammar:"reporting verbs"},
     {n:2,sent:"My car really needs to be repaired soon.",key:"MUST",pre:"I really",blank:"must get it",post:"repaired soon.",hint:"must + get + object + past participle",grammar:"modals"},
@@ -351,133 +378,268 @@ const PAGES=[
   ]},
 ];
 
-const ALL = PAGES.flatMap(p => p.items);
-const answered = {};
-let gOk=0, gErr=0, gAnswered=0, curIdx=0;
+// Grammar groups (from the PDF categories + derived from grammar tags)
+const GRAMMAR_GROUPS = [
+  {label:"Conditionals & Wishes", tags:["conditionals","wishes/regrets","regret"]},
+  {label:"Passive Voice", tags:["passive voice","passive/obligation","passive/modals","passive reporting"]},
+  {label:"Reported Speech", tags:["reported speech","reporting verbs"]},
+  {label:"Modal Verbs", tags:["modals","modals/passive","deduction","likelihood"]},
+  {label:"Gerund & Infinitive", tags:["gerund/infinitive","too/enough","worth/point","mind","avoidance","intention","difficulty","difficulty/trouble","succeed/manage","miss","adjective + infinitive"]},
+  {label:"Tenses", tags:["time expressions","first time","frequency adverbs","sequencing","memory","duration","appear/seem"]},
+  {label:"Comparatives", tags:["comparison","superlatives","so/such"]},
+  {label:"Linking Words", tags:["linking words","concession","cause/reason","cause/result","purpose","contrast"]},
+  {label:"Fixed Expressions", tags:["fixed expressions","fixed phrases","blame","surprise expressions","exception","reason clauses","negative"]},
+  {label:"Phrasal Verbs", tags:["phrasal verbs"]},
+  {label:"Other Structures", tags:["impersonal","indirect questions","preferences","suggestions","causatives","noun phrases","adjectives + prepositions","relative clauses","question tags","prepositions","permission","permission/passive","advice","character","future plans","transport","hope","responsibility","success","luck","causation","necessity","feelings"]},
+];
 
-function norm(s){ return s.trim().toLowerCase().replace(/['']/g,"'").replace(/\s+/g,' '); }
-function pageOf(n){ return PAGES.findIndex(p=>n>=p.range[0]&&n<=p.range[1]); }
+const ALL = SEQ_PAGES.flatMap(p => p.items);
 
+// Build grammar pages from groups
+const GRAM_PAGES = GRAMMAR_GROUPS.map(g => {
+  const items = ALL.filter(it => g.tags.includes(it.grammar));
+  return {label: g.label, items, range: items.length ? [items[0].n, items[items.length-1].n] : [0,0]};
+}).filter(g => g.items.length > 0);
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let grammarMode = false;
+let curIdx = 0;
+let answered = {};
+let gOk=0, gErr=0, gAnswered=0;
+
+function getPages(){ return grammarMode ? GRAM_PAGES : SEQ_PAGES; }
+function getList(){
+  if(grammarMode){
+    const pi = curPageIdx();
+    return GRAM_PAGES[pi].items;
+  }
+  return ALL;
+}
+
+function curPageIdx(){
+  const pages = getPages();
+  const item = getActiveList()[curIdx];
+  if(!item) return 0;
+  return pages.findIndex(p => p.items.some(it=>it.n===item.n));
+}
+
+let seqCurIdx=0, gramCurIdx=0, gramPageIdx=0;
+
+function getActiveList(){
+  if(grammarMode){
+    return GRAM_PAGES[gramPageIdx].items;
+  }
+  return ALL;
+}
+
+// ═══════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════
 function buildTabs(){
   const c=document.getElementById('tabs');
-  PAGES.forEach((p,i)=>{
+  c.innerHTML='';
+  const pages = getPages();
+  pages.forEach((p,i)=>{
     const b=document.createElement('button');
-    b.className='tab'+(i===0?' active':'');
+    b.className='tab';
     b.id='tab-'+i;
     b.textContent=p.label;
-    b.onclick=()=>goToSection(i);
+    b.onclick=()=>goToPage(i);
     c.appendChild(b);
   });
+  updateTabs();
 }
 
 function updateTabs(){
-  const curPage=pageOf(ALL[curIdx].n);
-  PAGES.forEach((p,i)=>{
+  const pages=getPages();
+  const activePage = grammarMode ? gramPageIdx : getSeqPage();
+  pages.forEach((p,i)=>{
     const t=document.getElementById('tab-'+i);
     if(!t)return;
-    t.classList.toggle('active', i===curPage);
-    let ok=0, done=0;
+    t.classList.remove('active','grammar-active','tok','tmix');
+    if(i===activePage) t.classList.add(grammarMode?'grammar-active':'active');
+    let ok=0,done=0;
     p.items.forEach(it=>{ if(answered[it.n]){done++; if(answered[it.n]==='ok')ok++; }});
-    t.classList.remove('tok','tmix');
     if(done===p.items.length && done>0) t.classList.add(ok===p.items.length?'tok':'tmix');
   });
 }
 
+function getSeqPage(){
+  const item=ALL[seqCurIdx];
+  return SEQ_PAGES.findIndex(p=>item&&p.items.some(it=>it.n===item.n));
+}
+
+// ═══════════════════════════════════════════════
+//  DOTS
+// ═══════════════════════════════════════════════
 function buildDots(){
   const c=document.getElementById('dotsWrap');
   c.innerHTML='';
-  ALL.forEach((item,i)=>{
+  const list = getActiveList();
+  const ci = grammarMode ? gramCurIdx : seqCurIdx;
+  list.forEach((item,i)=>{
     const d=document.createElement('div');
     const r=answered[item.n];
-    let cls='dn'+(i===curIdx?' cur':'')+(r==='ok'?' dok':r==='err'?' derr':r==='revealed'?' drev':'');
+    let cls='dn'+(i===ci?' cur'+(grammarMode?' gram':''):'')+
+      (r==='ok'?' dok':r==='err'?' derr':r==='revealed'?' drev':'');
     d.className=cls;
     d.title='Q'+item.n;
-    d.onclick=()=>goTo(i);
+    d.onclick=()=>goToInPage(i);
     c.appendChild(d);
   });
-  const active=c.children[curIdx];
+  const active=c.children[grammarMode?gramCurIdx:seqCurIdx];
   if(active) active.scrollIntoView({inline:'center',behavior:'smooth'});
 }
 
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
 function render(){
-  const item=ALL[curIdx];
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
+  if(!item) return;
   const r=answered[item.n];
-  document.getElementById('qCounter').textContent='Question '+item.n+' of 160';
+
+  // counter
+  document.getElementById('qCounter').textContent=
+    'Question '+(ci+1)+' of '+list.length+
+    (grammarMode?' · '+GRAM_PAGES[gramPageIdx].label:'');
+
   document.getElementById('origSent').textContent=item.sent;
-  document.getElementById('kwBig').textContent=item.key;
+  const kw=document.getElementById('kwBig');
+  kw.textContent=item.key;
+  kw.className='kw-big'+(grammarMode?' gram-mode':'');
   document.getElementById('gramTag').textContent=item.grammar;
   document.getElementById('ansPre').textContent=item.pre;
   document.getElementById('ansSuf').textContent=item.post;
+
   const inp=document.getElementById('ansInput');
   const btn=document.getElementById('checkBtn');
   const fb=document.getElementById('feedback');
   const ht=document.getElementById('hintText');
+
   if(r){
     inp.value=item.blank;
     inp.disabled=true;
-    inp.className='ans-input '+(r==='ok'?'ok':r==='err'?'err':'rev');
+    inp.className=r==='ok'?'ok':r==='err'?'err':'rev';
     btn.disabled=true;
-    if(r==='ok'){fb.className='feedback ok';fb.textContent='Correct!';}
-    else if(r==='err'){fb.className='feedback err';fb.textContent='Not quite — correct answer shown.';}
-    else{fb.className='feedback rev';fb.textContent='Answer revealed.';}
+    if(r==='ok'){fb.className='ok';fb.textContent='✓  Correct!';}
+    else if(r==='err'){fb.className='err';fb.textContent='✗  Not quite — correct answer shown.';}
+    else{fb.className='rev';fb.textContent='↳  Answer revealed.';}
     ht.textContent=item.hint;
   } else {
-    inp.value='';
-    inp.disabled=false;
-    inp.className='ans-input';
+    inp.value='';inp.disabled=false;inp.className='';
     btn.disabled=false;
-    fb.className='feedback';fb.textContent='';
+    fb.className='';fb.textContent='';
     ht.textContent='';
     setTimeout(()=>inp.focus(),80);
   }
-  document.getElementById('prevBtn').disabled=curIdx===0;
-  document.getElementById('nextBtn').disabled=curIdx===ALL.length-1;
+
+  const allList=getActiveList();
+  document.getElementById('prevBtn').disabled=(grammarMode?gramCurIdx:seqCurIdx)===0&&(grammarMode?gramPageIdx:getSeqPage())===0;
+  document.getElementById('nextBtn').disabled=(grammarMode?gramCurIdx:seqCurIdx)===allList.length-1&&(grammarMode?gramPageIdx:getSeqPage())===(getPages().length-1);
+
   buildDots();
   updateTabs();
+  document.getElementById('gOk').textContent=gOk;
+  document.getElementById('gErr').textContent=gErr;
+  document.getElementById('gTot').textContent=gAnswered+' / 160';
 }
 
+// ═══════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════
+function goToPage(pi){
+  if(grammarMode){
+    gramPageIdx=pi;
+    gramCurIdx=0;
+  } else {
+    const firstN=SEQ_PAGES[pi].items[0].n;
+    seqCurIdx=ALL.findIndex(it=>it.n===firstN);
+  }
+  render();
+}
+
+function goToInPage(i){
+  if(grammarMode) gramCurIdx=i;
+  else seqCurIdx=i;
+  render();
+}
+
+function goNext(){
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  if(ci<list.length-1){
+    if(grammarMode) gramCurIdx++;
+    else seqCurIdx++;
+  } else {
+    const pages=getPages();
+    const ap=grammarMode?gramPageIdx:getSeqPage();
+    if(ap<pages.length-1) goToPage(ap+1);
+  }
+  render();
+}
+
+function goPrev(){
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  if(ci>0){
+    if(grammarMode) gramCurIdx--;
+    else seqCurIdx--;
+  } else {
+    const pages=getPages();
+    const ap=grammarMode?gramPageIdx:getSeqPage();
+    if(ap>0){
+      const prevPage=pages[ap-1];
+      if(grammarMode){ gramPageIdx=ap-1; gramCurIdx=prevPage.items.length-1; }
+      else { seqCurIdx=ALL.findIndex(it=>it.n===prevPage.items[prevPage.items.length-1].n); }
+    }
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════════
+//  CHECK
+// ═══════════════════════════════════════════════
+function norm(s){ return s.trim().toLowerCase().replace(/['']/g,"'").replace(/\s+/g,' '); }
+
 function check(){
-  const item=ALL[curIdx];
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
   if(answered[item.n])return;
   const inp=document.getElementById('ansInput');
   const ok=norm(inp.value)===norm(item.blank);
   answered[item.n]=ok?'ok':'err';
   if(ok)gOk++; else gErr++;
   gAnswered++;
-  document.getElementById('gOk').textContent=gOk;
-  document.getElementById('gErr').textContent=gErr;
-  document.getElementById('gTot').textContent=gAnswered+' / 160';
   render();
 }
 
-function goTo(i){
-  curIdx=Math.max(0,Math.min(ALL.length-1,i));
-  render();
-}
-
-function goToSection(pi){
-  const n=PAGES[pi].range[0];
-  const i=ALL.findIndex(it=>it.n===n);
-  if(i>=0)goTo(i);
-}
-
-document.getElementById('prevBtn').onclick=()=>goTo(curIdx-1);
-document.getElementById('nextBtn').onclick=()=>goTo(curIdx+1);
+// ═══════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════
+document.getElementById('prevBtn').onclick=goPrev;
+document.getElementById('nextBtn').onclick=goNext;
 document.getElementById('checkBtn').onclick=check;
 document.getElementById('ansInput').onkeydown=e=>{if(e.key==='Enter')check();};
 
 document.getElementById('revBtn').onclick=()=>{
-  const item=ALL[curIdx];
+  const list=getActiveList();
+  const ci=grammarMode?gramCurIdx:seqCurIdx;
+  const item=list[ci];
   if(answered[item.n])return;
   answered[item.n]='revealed';
   gAnswered++;
-  document.getElementById('gTot').textContent=gAnswered+' / 160';
   render();
 };
 
 document.getElementById('resetBtn').onclick=()=>{
-  const pi=pageOf(ALL[curIdx].n);
-  PAGES[pi].items.forEach(it=>{
+  const pages=getPages();
+  const ap=grammarMode?gramPageIdx:getSeqPage();
+  pages[ap].items.forEach(it=>{
     const r=answered[it.n];
     if(r){
       if(r==='ok')gOk--;
@@ -486,26 +648,37 @@ document.getElementById('resetBtn').onclick=()=>{
       delete answered[it.n];
     }
   });
-  document.getElementById('gOk').textContent=gOk;
-  document.getElementById('gErr').textContent=gErr;
-  document.getElementById('gTot').textContent=gAnswered+' / 160';
+  if(grammarMode) gramCurIdx=0;
+  else seqCurIdx=ALL.findIndex(it=>it.n===pages[ap].items[0].n);
   render();
 };
 
-buildTabs();
-render();
+// Toggle
+document.getElementById('modeToggle').onchange=function(){
+  grammarMode=this.checked;
+  document.body.classList.toggle('gram', grammarMode);
+  document.getElementById('lblSeq').classList.toggle('active-label',!grammarMode);
+  document.getElementById('lblGram').classList.toggle('active-label',grammarMode);
+  buildTabs();
+  render();
+};
 
-// Touch swipe — left = next, right = prev
-let tsX=0, tsY=0;
+// Swipe
+let tsX=0,tsY=0;
 document.addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;tsY=e.touches[0].clientY;},{passive:true});
 document.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-tsX;
   const dy=e.changedTouches[0].clientY-tsY;
   if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){
-    if(dx<0&&curIdx<ALL.length-1)goTo(curIdx+1);
-    else if(dx>0&&curIdx>0)goTo(curIdx-1);
+    if(dx<0)goNext(); else goPrev();
   }
 },{passive:true});
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+buildTabs();
+render();
 </script>
 </body>
 </html>
